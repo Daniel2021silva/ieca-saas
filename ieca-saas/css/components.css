@@ -1,0 +1,284 @@
+/* =========================
+   LOGIN BOX
+========================= */
+.login-box{
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-box h2{
+    margin-bottom: 20px;
+    color: #ff6600;
+}
+
+/* INPUTS */
+.login-box input,
+.login-box select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.2s;
+}
+
+.login-box input:focus,
+.login-box select:focus{
+    border-color: #ff6600;
+}
+
+/* BOTÃO */
+.login-box button{
+    width: 100%;
+    padding: 12px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.login-box button:hover{
+    background: #e65c00;
+}
+
+/* LINK */
+.publico{
+    margin-top: 12px;
+    color: #555;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.publico:hover{
+    color: #000;
+}
+
+/* =========================
+   CAIXA DE MENSAGEM
+========================= */
+.message-box{
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.message-box input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+    font-size: 14px;
+    color: #000; /* 🔥 TEXTO PRETO */
+}
+
+.message-box input::placeholder{
+    color: #888;
+}
+
+/* BOTÃO + */
+.btn-plus{
+    width: 36px;
+    height: 36px;
+    left: -150;
+    border-radius: 50%;
+    border: none;
+    background: #f0f2f5;
+    color: #555;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-plus:hover{
+    background: #e4e6eb;
+}
+
+/* BOTÃO ENVIAR */
+.btn-send{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: #ff6600;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-send:hover{
+    background: #e65c00;
+}
+
+/* =========================
+   🔥 MENU DO "+"
+========================= */
+.upload-menu{
+    background: #2a2a40; /* 🔥 FUNDO ESCURO */
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    float: left;
+}
+
+/* BOTÕES DO MENU */
+.upload-menu button{
+    background: none;
+    border: none;
+    color: black; /* 🔥 TEXTO VISÍVEL */
+    padding: 8px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* HOVER */
+.upload-menu button:hover{
+    background: #3a3a5a;
+}
+
+/* =========================
+   POST (REDE SOCIAL)
+========================= */
+.post{
+    background: #fff;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+/* HEADER DO POST */
+.post-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+}
+
+/* AVATAR */
+.avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ff6600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* TEXTO */
+.post-text{
+    padding: 0 12px 10px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* IMAGEM */
+.post-img{
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* =========================
+   AÇÕES
+========================= */
+.post-actions{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+.post-actions button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: 0.2s;
+}
+
+.post-actions button:hover{
+    color: #ff6600;
+}
+
+/* =========================
+   COMENTÁRIOS
+========================= */
+.comentarios{
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+.comentarios p{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.comentarios input{
+    margin-top: 8px;
+}
+
+.comentarios button{
+    margin-top: 5px;
+    width: 100%;
+    background: #ff6600;
+    color: white;
+}
+
+/* =========================
+   CARD
+========================= */
+.card{
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card h3{
+    margin-bottom: 10px;
+}
+
+.card ul{
+    padding-left: 15px;
+}
+
+.card li{
+    margin-bottom: 5px;
+}
+
+/* =========================
+   BOTÃO PADRÃO
+========================= */
+.btn{
+    background: #ff6600;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover{
+    background: #e65c00;
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Estudos Bíblicos - IECA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI';}
+
+body{
+background:#0f172a;
+color:white;
+}
+
+/* HEADER */
+header{
+padding:15px;
+font-size:22px;
+font-weight:bold;
+}
+
+/* FORM (PASTOR) */
+.form{
+background:#1e293b;
+padding:15px;
+margin:15px;
+border-radius:12px;
+}
+
+.form input, .form select{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border:none;
+border-radius:8px;
+}
+
+.form button{
+width:100%;
+padding:10px;
+background:#007bff;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+/* BUSCA */
+.search{
+padding:10px;
+}
+
+.search input{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:none;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+gap:15px;
+padding:15px;
+}
+
+/* CARD */
+.card{
+background:#1e293b;
+border-radius:12px;
+overflow:hidden;
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.thumb{
+height:100px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+background:linear-gradient(45deg,#007bff,#00c6ff);
+}
+
+.card-body{
+padding:10px;
+}
+
+.tipo{
+font-size:12px;
+color:#aaa;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+}
+
+.modal-content{
+width:100%;
+max-width:800px;
+}
+
+.close{
+margin-top:10px;
+background:red;
+color:white;
+padding:10px;
+border:none;
+border-radius:8px;
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>📖 Estudos Bíblicos</header>
+
+<!-- 🔐 PAINEL DO PASTOR -->
+
+<div class="form">
+
+<h3>➕ Adicionar Estudo</h3>
+
+<input type="text" id="titulo" placeholder="Título do estudo">
+
+<select id="tipo">
+<option value="video">🎥 Vídeo (YouTube)</option>
+<option value="pdf">📄 PDF (link)</option>
+</select>
+
+<input type="text" id="link" placeholder="Cole o link do vídeo ou PDF">
+
+<button onclick="adicionar()">Salvar Estudo</button>
+
+</div>
+
+<!-- 🔍 BUSCA -->
+
+<div class="search">
+<input type="text" id="busca" placeholder="🔍 Buscar estudos..." onkeyup="filtrar()">
+</div>
+
+<!-- 🎬 GRID -->
+
+<div class="grid" id="grid"></div>
+
+<!-- 🎥 MODAL -->
+
+<div class="modal" id="modal">
+<div class="modal-content" id="conteudo"></div>
+<button class="close" onclick="fechar()">Fechar</button>
+</div>
+
+<script>
+
+// 🔍 FILTRO (frontend)
+function filtrar(){
+    const termo = document.getElementById("busca").value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(card=>{
+        card.style.display = card.innerText.toLowerCase().includes(termo) ? "block" : "none";
+    });
+}
+
+</script>
+
+<!-- 🔥 FIREBASE (ESTUDOS) -->
+
+<script type="module" src="../js/modules/estudos.js"></script>
+
+</body>
+</html>

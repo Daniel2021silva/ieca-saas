@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>IECA - Login</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="css/global.css">
+<link rel="stylesheet" href="css/components.css">
+
+<style>
+.login-box{
+    max-width: 350px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.login-box h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-box input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.login-box button{
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.publico{
+    text-align: center;
+    margin-top: 10px;
+    color: #555;
+    cursor: pointer;
+}
+
+.publico:hover{
+    text-decoration: underline;
+}
+</style>
+
+</head>
+
+<body class="center">
+
+<div class="login-box">
+
+```
+<h2>IECA</h2>
+
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="senha" placeholder="Senha">
+
+<button onclick="login()">Entrar</button>
+
+<p class="publico" onclick="entrarVisitante()">
+    Entrar como visitante
+</p>
+
+<div class="lang">
+    <button onclick="setLang('pt')">🇧🇷</button>
+    <button onclick="setLang('en')">🇺🇸</button>
+</div>
+```
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script src="js/services/storage.js"></script>
+
+<script src="js/utils/constants.js"></script>
+
+<script src="js/utils/i18n.js"></script>
+
+<script src="js/modules/auth.js"></script>
+
+<script>
+function entrarVisitante(){
+    const visitante = {
+        nome: "Visitante",
+        tipo: "visitante",
+        congregacao: "Matriz"
+    };
+
+    storage.set("usuario", visitante);
+    storage.set("app_context", visitante);
+
+    window.location.href = "feed.html";
+}
+</script>
+</body>
+</html>

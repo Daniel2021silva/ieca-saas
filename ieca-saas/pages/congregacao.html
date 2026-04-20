@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Congregações - IECA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+.card{
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.02);
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:12px;
+}
+
+.card p{
+    margin:6px 0;
+}
+
+.badge-atual{
+    display:inline-block;
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    margin-top:8px;
+}
+
+.badge-matriz{
+    display:inline-block;
+    background:#ede9fe;
+    color:#6d28d9;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    margin-top:8px;
+}
+
+.info-box{
+    background:#fff;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <h2>IECA</h2>
+
+        <ul>
+            <li onclick="window.location.href='../feed.html'">
+                <i class="fas fa-home"></i> <span>Feed</span>
+            </li>
+
+            <li onclick="window.location.href='departamento.html'">
+                <i class="fas fa-users"></i> <span>Departamentos</span>
+            </li>
+
+            <li onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> <span>Sair</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topo">
+            <h2>⛪ Congregações</h2>
+        </header>
+
+        <div class="container">
+
+            <div class="info-box">
+                <p><strong>Igreja visualizada agora:</strong> <span id="igrejaAtualTexto">Carregando...</span></p>
+            </div>
+
+            <div class="card">
+                <h3>➕ Nova Congregação</h3>
+
+                <div class="form-grid">
+                    <input type="text" id="nome" placeholder="Nome da congregação">
+                    <input type="text" id="endereco" placeholder="Endereço">
+                    <input type="text" id="horario" placeholder="Horário">
+                    <input type="text" id="responsavel" placeholder="Responsável">
+                </div>
+
+                <button class="btn" onclick="addCongregacao()">Adicionar</button>
+            </div>
+
+            <div id="listaCongregacoes"></div>
+
+        </div>
+
+    </main>
+</div>
+
+<script src="../js/services/storage.js"></script>
+
+<script>
+function storageGet(key, fallback){
+    try{
+        const value = storage.get(key);
+        if(value === undefined || value === null) return fallback;
+        return value;
+    }catch(e){
+        return fallback;
+    }
+}
+
+function slugify(texto){
+    return String(texto || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+let context = storageGet("app_context", {});
+
+if(!context || typeof context !== "object" || Array.isArray(context)){
+    context = {};
+}
+
+// contexto seguro
+if(!context.usuario_tipo){
+    context.usuario_tipo = "admin_matriz";
+}
+
+if(!context.igreja_origem_id){
+    context.igreja_origem_id = "matriz";
+}
+
+if(!context.igreja_origem_nome){
+    context.igreja_origem_nome = "Matriz";
+}
+
+if(!context.igreja_visualizada_id){
+    context.igreja_visualizada_id = context.igreja_origem_id;
+}
+
+if(!context.igreja_visualizada_nome){
+    context.igreja_visualizada_nome = context.igreja_origem_nome;
+}
+
+// compatibilidade com páginas antigas
+context.tipo = context.igreja_visualizada_id === "matriz" ? "matriz" : "congregacao";
+context.nome = context.igreja_visualizada_nome;
+context.congregacao_id = context.igreja_visualizada_id === "matriz" ? null : context.igreja_visualizada_id;
+
+storage.set("app_context", context);
+
+let congregacoes = storageGet("congregacoes", []);
+
+const congregacoesPadrao = [
+    { id: "matriz", nome: "Matriz", endereco: "Sede", horario: "Cultos gerais", responsavel: "Pr. Moisés Amorim" },
+    { id: "jardim-america", nome: "Jardim América", endereco: "Rua Olavo C Vergara 244", horario: "Terça às 20h", responsavel: "Líder local" },
+    { id: "pestano", nome: "Pestano", endereco: "Osmar Grafulha 183", horario: "Terça e Quinta às 20h", responsavel: "Líder local" },
+    { id: "cangucu", nome: "Canguçu", endereco: "General Paranhos 578", horario: "Quarta e Sábado", responsavel: "Líder local" },
+    { id: "getulio-vargas", nome: "Getúlio Vargas", endereco: "Rua 3 nº 327", horario: "Terça e Sexta às 20h", responsavel: "Líder local" },
+    { id: "pedro-osorio", nome: "Pedro Osório", endereco: "Rua Ivo Pérez 85", horario: "Quarta 15h / Sexta 19:30", responsavel: "Líder local" },
+    { id: "missoes-internacional", nome: "Missões Internacional", endereco: "Moçambique - Beira", horario: "7 congregações", responsavel: "Missões" }
+];
+
+// normaliza lista antiga
+function normalizarCongregacoes(lista){
+    if(!Array.isArray(lista) || !lista.length){
+        return congregacoesPadrao;
+    }
+
+    return lista.map((c) => {
+        const nome = c.nome || "Sem nome";
+        const idNormalizado = typeof c.id === "string" && c.id.trim()
+            ? c.id
+            : slugify(nome);
+
+        return {
+            id: idNormalizado || ("igreja-" + Date.now()),
+            nome: nome,
+            endereco: c.endereco || "",
+            horario: c.horario || "",
+            responsavel: c.responsavel || ""
+        };
+    });
+}
+
+congregacoes = normalizarCongregacoes(congregacoes);
+
+// garante padrão se matriz não existir
+if(!congregacoes.some(c => c.id === "matriz")){
+    congregacoes.unshift(congregacoesPadrao[0]);
+}
+
+storage.set("congregacoes", congregacoes);
+
+function ehAdminMatriz(){
+    return context.usuario_tipo === "admin_matriz";
+}
+
+function atualizarIgrejaAtual(){
+    document.getElementById("igrejaAtualTexto").innerText =
+        context.igreja_visualizada_nome || "Matriz";
+}
+
+function abrirCongregacao(c){
+    let novoContexto = storageGet("app_context", {});
+
+    if(!novoContexto || typeof novoContexto !== "object" || Array.isArray(novoContexto)){
+        novoContexto = {};
+    }
+
+    if(!novoContexto.usuario_tipo){
+        novoContexto.usuario_tipo = "admin_matriz";
+    }
+
+    if(!novoContexto.igreja_origem_id){
+        novoContexto.igreja_origem_id = "matriz";
+    }
+
+    if(!novoContexto.igreja_origem_nome){
+        novoContexto.igreja_origem_nome = "Matriz";
+    }
+
+    // admin matriz pode abrir qualquer congregação
+    if(novoContexto.usuario_tipo === "admin_matriz"){
+        novoContexto.igreja_visualizada_id = c.id;
+        novoContexto.igreja_visualizada_nome = c.nome;
+    } else {
+        // usuário local fica preso à própria igreja
+        novoContexto.igreja_visualizada_id = novoContexto.igreja_origem_id;
+        novoContexto.igreja_visualizada_nome = novoContexto.igreja_origem_nome;
+    }
+
+    // compatibilidade com páginas antigas
+    novoContexto.tipo = novoContexto.igreja_visualizada_id === "matriz" ? "matriz" : "congregacao";
+    novoContexto.nome = novoContexto.igreja_visualizada_nome;
+    novoContexto.congregacao_id = novoContexto.igreja_visualizada_id === "matriz"
+        ? null
+        : novoContexto.igreja_visualizada_id;
+
+    storage.set("app_context", novoContexto);
+
+    // leitura imediata para garantir
+    const teste = storageGet("app_context", {});
+    console.log("Contexto salvo:", teste);
+
+    window.location.href = "../feed.html";
+}
+
+function render(){
+    const lista = document.getElementById("listaCongregacoes");
+    lista.innerHTML = "";
+
+    congregacoes.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "card";
+
+        const atual = context.igreja_visualizada_id === c.id;
+        const ehMatriz = c.id === "matriz";
+
+        div.innerHTML = `
+            <h3>${c.nome}</h3>
+            <p>📍 ${c.endereco}</p>
+            <p>🕒 ${c.horario}</p>
+            <p>👤 ${c.responsavel}</p>
+            ${atual ? `<span class="badge-atual">IGREJA ATUAL</span>` : ""}
+            ${ehMatriz ? `<span class="badge-matriz">MATRIZ</span>` : ""}
+        `;
+
+        div.onclick = () => abrirCongregacao(c);
+        lista.appendChild(div);
+    });
+}
+
+function addCongregacao(){
+    let nome = document.getElementById("nome").value.trim();
+    let endereco = document.getElementById("endereco").value.trim();
+    let horario = document.getElementById("horario").value.trim();
+    let responsavel = document.getElementById("responsavel").value.trim();
+
+    if(!nome){
+        alert("Digite o nome");
+        return;
+    }
+
+    const id = slugify(nome) || ("igreja-" + Date.now());
+
+    const jaExiste = congregacoes.some(c => c.id === id);
+    if(jaExiste){
+        alert("Já existe uma congregação com esse nome.");
+        return;
+    }
+
+    const nova = {
+        id,
+        nome,
+        endereco,
+        horario,
+        responsavel
+    };
+
+    congregacoes.push(nova);
+    storage.set("congregacoes", congregacoes);
+
+    limpar();
+    render();
+}
+
+function limpar(){
+    document.getElementById("nome").value = "";
+    document.getElementById("endereco").value = "";
+    document.getElementById("horario").value = "";
+    document.getElementById("responsavel").value = "";
+}
+
+function logout(){
+    localStorage.removeItem("app_context");
+    window.location.href = "../index.html";
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    atualizarIgrejaAtual();
+    render();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Usuários - IECA</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+.form, .table-box {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-save { background: #007bff; color: white; }
+.btn-edit { background: orange; color: white; }
+.btn-delete { background: red; color: white; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.status-ativo { color: green; font-weight: bold; }
+.status-inativo { color: red; font-weight: bold; }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+<h2>IECA</h2>
+
+<ul>
+<li onclick="window.location.href='../feed.html'"><i class="fas fa-home"></i> Feed</li>
+<li onclick="window.location.href='congregacao.html'"><i class="fas fa-church"></i> Congregações</li>
+<li onclick="window.location.href='usuarios.html'" class="active"><i class="fas fa-user"></i> Usuários</li>
+</ul>
+</aside>
+
+<main class="main-content">
+
+<header class="topo">
+<h2>👥 Gestão de Usuários</h2>
+</header>
+
+<div class="container">
+
+<!-- FORM -->
+
+<div class="form">
+
+<h3>➕ Cadastro / Edição</h3>
+
+<input type="hidden" id="id">
+
+<input type="text" id="nome" placeholder="Nome">
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="senha" placeholder="Senha">
+
+<select id="tipo">
+<option value="admin">Admin (Matriz)</option>
+<option value="pastor">Pastor</option>
+<option value="lider">Líder</option>
+</select>
+
+<input type="text" id="congregacao" placeholder="Congregação">
+
+<button class="btn-save" onclick="salvar()">Salvar</button>
+
+</div>
+
+<!-- TABELA -->
+
+<div class="table-box">
+
+<table>
+<thead>
+<tr>
+<th>Nome</th>
+<th>Email</th>
+<th>Tipo</th>
+<th>Congregação</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+
+<tbody id="listaUsuarios"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</main>
+</div>
+
+<script src="../js/services/storage.js"></script>
+
+<script>
+
+let usuarios = storage.get("usuarios") || [];
+
+// 🔥 SALVAR
+function salvar(){
+
+    let id = document.getElementById("id").value;
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let senha = document.getElementById("senha").value;
+    let tipo = document.getElementById("tipo").value;
+    let congregacao = document.getElementById("congregacao").value;
+
+    if(!nome || !email || !senha){
+        return alert("Preencha todos os campos");
+    }
+
+    // 🔥 REGRA: 1 pastor por congregação
+    if(tipo === "pastor"){
+
+        usuarios.forEach(u => {
+            if(u.tipo === "pastor" && u.congregacao === congregacao){
+                u.ativo = false;
+            }
+        });
+    }
+
+    if(id){
+        // EDITAR
+        usuarios = usuarios.map(u => {
+            if(u.id == id){
+                return { ...u, nome, email, senha, tipo, congregacao };
+            }
+            return u;
+        });
+    } else {
+        // NOVO
+        usuarios.push({
+            id: Date.now(),
+            nome,
+            email,
+            senha,
+            tipo,
+            congregacao,
+            ativo: true
+        });
+    }
+
+    storage.set("usuarios", usuarios);
+
+    limpar();
+    render();
+}
+
+// 🔥 EDITAR
+function editar(id){
+
+    const u = usuarios.find(x => x.id == id);
+
+    document.getElementById("id").value = u.id;
+    document.getElementById("nome").value = u.nome;
+    document.getElementById("email").value = u.email;
+    document.getElementById("senha").value = u.senha;
+    document.getElementById("tipo").value = u.tipo;
+    document.getElementById("congregacao").value = u.congregacao;
+}
+
+// 🔥 ATIVAR/DESATIVAR
+function toggleStatus(id){
+
+    usuarios = usuarios.map(u => {
+
+        if(u.id == id){
+            u.ativo = !u.ativo;
+        }
+
+        return u;
+    });
+
+    storage.set("usuarios", usuarios);
+    render();
+}
+
+// 🔥 RENDER
+function render(){
+
+    const lista = document.getElementById("listaUsuarios");
+    lista.innerHTML = "";
+
+    usuarios.forEach(u => {
+
+        lista.innerHTML += `
+        <tr>
+            <td>${u.nome}</td>
+            <td>${u.email}</td>
+            <td>${u.tipo}</td>
+            <td>${u.congregacao}</td>
+            <td class="${u.ativo ? 'status-ativo' : 'status-inativo'}">
+                ${u.ativo ? 'Ativo' : 'Bloqueado'}
+            </td>
+            <td>
+                <button class="btn-edit" onclick="editar(${u.id})">Editar</button>
+                <button class="btn-delete" onclick="toggleStatus(${u.id})">
+                    ${u.ativo ? 'Bloquear' : 'Ativar'}
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+// LIMPAR
+function limpar(){
+    document.getElementById("id").value = "";
+    document.getElementById("nome").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("senha").value = "";
+    document.getElementById("congregacao").value = "";
+}
+
+// INIT
+render();
+
+</script>
+
+</body>
+</html>
