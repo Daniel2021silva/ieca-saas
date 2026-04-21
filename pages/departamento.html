@@ -267,63 +267,74 @@ const nomesDepartamentos = {
     estudos: "Estudos"
 };
 
-let usuarioAtual = null;
+let usuarioAtual = storage.get("usuario", null);
 let context = storage.get("app_context", null);
 
-if(!context || typeof context !== "object" || Array.isArray(context) || !context.tipo){
+if(!context || typeof context !== "object" || Array.isArray(context)){
     context = {
         tipo: "matriz",
         nome: "Matriz",
-        congregacao_id: null,
+        igreja: "IECA",
+        congregacao: "Matriz",
+        congregacao_id: 1,
         departamento: null,
         departamento_nome: null
     };
     storage.set("app_context", context);
 }
 
+function normalizarContextoComUsuario(usuario){
+    if(!usuario) return;
+
+    if(!context.tipo){
+        if(usuario.tipo === "admin" || usuario.tipo === "pastor"){
+            context.tipo = "matriz";
+        } else {
+            context.tipo = "congregacao";
+        }
+    }
+
+    if(!context.nome){
+        context.nome = usuario.congregacao || "Matriz";
+    }
+
+    if(!context.igreja){
+        context.igreja = usuario.igreja || "IECA";
+    }
+
+    if(!context.congregacao){
+        context.congregacao = usuario.congregacao || "Matriz";
+    }
+
+    if(context.congregacao_id === undefined || context.congregacao_id === null){
+        context.congregacao_id = usuario.congregacao_id || 1;
+    }
+
+    storage.set("app_context", context);
+}
+
+function usuarioTemAcesso(usuario){
+    if(!usuario || !usuario.tipo) return false;
+    return ["admin", "pastor", "lider"].includes(usuario.tipo);
+}
+
 async function validarAcessoDepartamentos(){
-    try{
-        const response = await fetch("http://127.0.0.1:5000/api/auth/me", {
-            method: "GET",
-            credentials: "include"
-        });
+    usuarioAtual = storage.get("usuario", null);
 
-        if(!response.ok){
-            alert("Faça login para acessar os departamentos.");
-            window.location.href = "../index.html";
-            return false;
-        }
-
-        const usuario = await response.json();
-        usuarioAtual = usuario;
-        storage.set("usuario", usuario);
-
-        if(!["admin", "pastor", "lider"].includes(usuario.tipo)){
-            alert("Você não tem permissão para acessar os departamentos.");
-            window.location.href = "../feed.html";
-            return false;
-        }
-
-        if(!context.tipo){
-            context.tipo = usuario.congregacao_id ? "congregacao" : "matriz";
-        }
-
-        if(!context.nome){
-            context.nome = usuario.congregacao_id ? `Congregação ${usuario.congregacao_id}` : "Matriz";
-        }
-
-        if(context.congregacao_id === undefined || context.congregacao_id === null){
-            context.congregacao_id = usuario.congregacao_id || null;
-        }
-
-        storage.set("app_context", context);
+    if(usuarioTemAcesso(usuarioAtual)){
+        normalizarContextoComUsuario(usuarioAtual);
         return true;
+    }
 
-    }catch(error){
-        alert("Não foi possível validar o acesso aos departamentos.");
+    if(usuarioAtual && usuarioAtual.tipo === "visitante"){
+        alert("A visualização dos departamentos exige acesso administrativo nesta demonstração.");
         window.location.href = "../index.html";
         return false;
     }
+
+    alert("Faça login com o acesso demo administrativo para entrar nos departamentos.");
+    window.location.href = "../index.html";
+    return false;
 }
 
 function isMatriz(){
@@ -366,15 +377,16 @@ function abrirDepartamento(dep){
     };
 
     storage.set("app_context", novoContexto);
-
     window.location.href = "../feed.html";
 }
 
 function voltarMatriz(){
     const novo = {
+        ...context,
         tipo: "matriz",
         nome: "Matriz",
-        congregacao_id: null,
+        congregacao: "Matriz",
+        congregacao_id: 1,
         departamento: null,
         departamento_nome: null
     };
@@ -396,7 +408,6 @@ document.querySelectorAll(".departamento-card").forEach(card => {
 async function iniciarDepartamentos(){
     const acessoLiberado = await validarAcessoDepartamentos();
     if(!acessoLiberado) return;
-
     atualizarTela();
 }
 
