@@ -66,18 +66,18 @@ body{
     font-weight:700;
 }
 
-.badge-dep{
+.badge-visitante{
     display:inline-block;
-    background:#ede9fe;
-    color:#6d28d9;
+    background:#f3f4f6;
+    color:#374151;
     padding:5px 10px;
     border-radius:999px;
     font-size:12px;
     font-weight:700;
 }
 
-#btnVoltarMatriz{
-    background:#1e293b;
+#btnLogout{
+    background:#dc2626;
     color:#fff;
     border:none;
     padding:10px 14px;
@@ -87,7 +87,7 @@ body{
     display:none;
 }
 
-#btnVoltarMatriz:hover{
+#btnLogout:hover{
     opacity:.92;
 }
 
@@ -97,7 +97,7 @@ body{
 }
 
 .live-box{
-    display:none;
+    display:flex;
     align-items:center;
     justify-content:space-between;
     gap:10px;
@@ -154,7 +154,6 @@ body{
     color:#cbd5e1;
 }
 
-.btn-plus,
 .btn-send{
     width:42px;
     height:42px;
@@ -164,71 +163,8 @@ body{
     font-size:18px;
     font-weight:bold;
     flex-shrink:0;
-}
-
-.btn-plus{
-    background:#2a2a40;
-    color:#fff;
-}
-
-.btn-send{
     background:#16a34a;
     color:white;
-}
-
-.upload-menu{
-    position:absolute;
-    bottom:60px;
-    right:100%;
-    margin-right:10px;
-    background:#2a2a40;
-    border-radius:10px;
-    padding:8px;
-    display:none;
-    flex-direction:column;
-}
-
-.upload-menu button{
-    background:none;
-    border:none;
-    color:black;
-    padding:10px;
-    cursor:pointer;
-    text-align:left;
-    border-radius:8px;
-}
-
-.upload-menu button:hover{
-    background:rgba(255,255,255,0.08);
-}
-
-.file-preview{
-    margin-top:12px;
-    background:#fff;
-    padding:12px 14px;
-    border-radius:12px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
-    display:none;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.file-preview span{
-    color:#334155;
-    font-size:14px;
-    word-break:break-word;
-}
-
-.file-preview button{
-    background:#ef4444;
-    color:#fff;
-    border:none;
-    padding:8px 12px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
 }
 
 .post{
@@ -264,51 +200,26 @@ body{
     font-weight:700;
 }
 
-.post-departamento{
-    display:inline-block;
-    background:#ede9fe;
-    color:#6d28d9;
-    padding:5px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-}
-
 .post-data{
     color:#64748b;
     font-size:12px;
 }
 
+.post-autor{
+    color:#334155;
+    font-size:13px;
+    font-weight:600;
+}
+
 .post p{
-    margin:0 0 12px;
+    margin:0;
     white-space:pre-wrap;
     word-break:break-word;
     line-height:1.5;
 }
 
-.post-media img,
-.post-media video{
-    width:100%;
-    border-radius:12px;
-    margin-top:8px;
-    max-height:420px;
-    object-fit:cover;
-    background:#e5e7eb;
-}
-
-.post-media a{
-    display:inline-block;
-    margin-top:8px;
-    color:#2563eb;
-    font-weight:600;
-    text-decoration:none;
-}
-
-.post-media a:hover{
-    text-decoration:underline;
-}
-
-.empty-feed{
+.empty-feed,
+.box-info{
     background:#fff;
     padding:24px;
     border-radius:14px;
@@ -317,14 +228,13 @@ body{
     box-shadow:0 4px 14px rgba(0,0,0,0.06);
 }
 
-.btn-limpar-dep{
-    background:#6b7280;
-    color:white;
-    border:none;
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
+.box-info{
+    margin-bottom:16px;
+    padding:16px;
+}
+
+.oculto{
+    display:none !important;
 }
 
 @media(max-width:768px){
@@ -336,7 +246,6 @@ body{
         padding:6px 8px;
     }
 
-    .btn-plus,
     .btn-send{
         width:40px;
         height:40px;
@@ -346,10 +255,12 @@ body{
 </head>
 
 <body>
+<button class="menu-toggle" id="menuToggle">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="app">
 
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <h2>IECA</h2>
 
         <ul>
@@ -361,16 +272,20 @@ body{
                 <i class="fas fa-church"></i> Congregações
             </li>
 
-            <li onclick="window.location.href='pages/departamento.html'">
+            <li onclick="irParaAreaProtegida('pages/departamento.html')">
                 <i class="fas fa-users"></i> Departamentos
             </li>
 
-            <li onclick="window.location.href='pages/secretaria.html'">
+            <li onclick="irParaAreaProtegida('pages/secretaria.html')">
                 <i class="fas fa-file-alt"></i> Secretaria
             </li>
 
-            <li onclick="window.location.href='pages/financeiro.html'">
+            <li onclick="irParaAreaProtegida('pages/financeiro.html')">
                 <i class="fas fa-coins"></i> Financeiro
+            </li>
+
+            <li onclick="window.location.href='usuarios.html'">
+    👥 Usuários
             </li>
         </ul>
     </aside>
@@ -378,47 +293,36 @@ body{
     <main class="main-content">
         <header class="topo">
             <div class="topo-left">
-                <h2 id="tituloPagina">📢 Feed</h2>
-                <p id="subtituloPagina" class="topo-subtitulo"></p>
+                <h2>📢 Feed</h2>
+                <p class="topo-subtitulo" id="subtituloPagina">Publicações da igreja.</p>
 
                 <div class="topo-badges">
-                    <span id="badgeMatriz" class="badge-info" style="display:none;">VISÃO MATRIZ</span>
-                    <span id="badgeDepartamento" class="badge-dep" style="display:none;"></span>
+                    <span id="badgeUsuario" class="badge-info oculto"></span>
+                    <span id="badgeVisitante" class="badge-visitante">VISUALIZAÇÃO LIVRE</span>
                 </div>
             </div>
 
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button id="btnLimparDepartamento" class="btn-limpar-dep" style="display:none;" onclick="limparDepartamento()">Limpar departamento</button>
-                <button id="btnVoltarMatriz" onclick="voltarMatriz()">⬅️ Voltar para Matriz</button>
+                <button id="btnLogout" onclick="logout()">Sair</button>
             </div>
         </header>
 
         <div class="container">
-           <div id="areaMatriz" class="live-box">
-    <a href="https://youtube.com/@IECAUMAIGREJAFAMILIA" target="_blank">
-        <button class="live-btn">▶ YouTube</button>
-    </a>
-    <span id="liveStatus" class="live-text"></span>
-</div>
+            <div class="live-box">
+                <a href="https://youtube.com/@IECAUMAIGREJAFAMILIA" target="_blank" rel="noopener noreferrer">
+                    <button class="live-btn">▶ YouTube</button>
+                </a>
+                <span id="liveStatus" class="live-text">Nenhuma transmissão ao vivo no momento</span>
+            </div>
 
-            <div class="message-container">
+            <div id="boxInfoVisitante" class="box-info">
+                Você pode visualizar o feed livremente. Para publicar, faça login.
+            </div>
+
+            <div class="message-container oculto" id="composerArea">
                 <div class="message-box">
-                    <button class="btn-plus" onclick="toggleMenu()">+</button>
                     <input type="text" id="texto" placeholder="Escreva uma mensagem...">
-                    <button class="btn-send" onclick="criarPost()">➤</button>
-                </div>
-
-                <div class="upload-menu" id="uploadMenu">
-                    <button onclick="selecionarArquivo('image/*')">📷 Foto</button>
-                    <button onclick="selecionarArquivo('video/*')">🎥 Vídeo</button>
-                    <button onclick="selecionarArquivo('.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt')">📄 Documento</button>
-                </div>
-
-                <input type="file" id="midia" hidden>
-
-                <div id="filePreview" class="file-preview">
-                    <span id="filePreviewText">Nenhum arquivo selecionado</span>
-                    <button onclick="removerArquivo()">Remover</button>
+                    <button class="btn-send" onclick="criarPostHandler()">➤</button>
                 </div>
             </div>
 
@@ -427,47 +331,12 @@ body{
     </main>
 </div>
 
-<script src="js/services/storage.js"></script>
+<script type="module">
+import { listarPosts, criarPost, getUsuarioAtual, logoutRequest } from "./js/modules/posts.js";
 
-<script>
-const nomesDepartamentos = {
-    missoes: "Missões",
-    mulheres: "Mulheres",
-    homens: "Homens",
-    jovens: "Jovens",
-    infantil: "Infantil",
-    diaconato: "Diaconato",
-    coral: "Coral",
-    intercessao: "Intercessão",
-    social: "Social",
-    estudos: "Estudos"
-};
-
-let context = storage.get("app_context", null);
-
-if(!context || typeof context !== "object" || Array.isArray(context) || !context.tipo){
-    context = {
-        tipo: "matriz",
-        nome: "Matriz",
-        congregacao_id: null,
-        departamento: null,
-        departamento_nome: null
-    };
-    storage.set("app_context", context);
-}
-
-let posts = storage.get("posts", []);
-if(!Array.isArray(posts)) posts = [];
-
-let arquivoSelecionado = null;
-
-function isMatriz(){
-    return context.tipo === "matriz";
-}
-
-function gerarId(){
-    return Date.now().toString() + Math.floor(Math.random() * 1000).toString();
-}
+let usuarioAtual = null;
+let autenticado = false;
+let posts = [];
 
 function escaparHTML(texto){
     return String(texto || "")
@@ -485,272 +354,152 @@ function formatarData(dataISO){
     return data.toLocaleString("pt-BR");
 }
 
-function atualizarTitulo(){
-    const departamentoAtivo = context.departamento_nome || nomesDepartamentos[context.departamento] || "";
+function atualizarTopo(){
+    const badgeUsuario = document.getElementById("badgeUsuario");
+    const badgeVisitante = document.getElementById("badgeVisitante");
+    const btnLogout = document.getElementById("btnLogout");
+    const composerArea = document.getElementById("composerArea");
+    const boxInfoVisitante = document.getElementById("boxInfoVisitante");
+    const subtitulo = document.getElementById("subtituloPagina");
 
-    document.getElementById("tituloPagina").innerText =
-        departamentoAtivo
-            ? `📢 Feed - ${context.nome || "IECA"} / ${departamentoAtivo}`
-            : `📢 Feed - ${context.nome || "IECA"}`;
-
-    document.getElementById("subtituloPagina").innerText = isMatriz()
-        ? (departamentoAtivo
-            ? `Visão geral do departamento ${departamentoAtivo} em todas as congregações.`
-            : "Visão geral de publicações de todas as congregações.")
-        : (departamentoAtivo
-            ? `Publicações da congregação ${context.nome || ""} no departamento ${departamentoAtivo}.`
-            : `Publicações da congregação ${context.nome || ""}.`);
-
-    document.getElementById("badgeMatriz").style.display = isMatriz() ? "inline-block" : "none";
-
-    const badgeDepartamento = document.getElementById("badgeDepartamento");
-    if(departamentoAtivo){
-        badgeDepartamento.style.display = "inline-block";
-        badgeDepartamento.innerText = departamentoAtivo;
-        document.getElementById("btnLimparDepartamento").style.display = "inline-block";
+    if(autenticado && usuarioAtual){
+        badgeUsuario.classList.remove("oculto");
+        badgeUsuario.textContent = `${usuarioAtual.nome} • ${usuarioAtual.tipo}`;
+        badgeVisitante.style.display = "none";
+        btnLogout.style.display = "inline-block";
+        composerArea.classList.remove("oculto");
+        boxInfoVisitante.style.display = "none";
+        subtitulo.textContent = "Publicações da igreja e da sua congregação.";
     }else{
-        badgeDepartamento.style.display = "none";
-        badgeDepartamento.innerText = "";
-        document.getElementById("btnLimparDepartamento").style.display = "none";
+        badgeUsuario.classList.add("oculto");
+        badgeVisitante.style.display = "inline-block";
+        btnLogout.style.display = "none";
+        composerArea.classList.add("oculto");
+        boxInfoVisitante.style.display = "block";
+        subtitulo.textContent = "Publicações da igreja.";
     }
 }
 
-function controlarBotaoMatriz(){
-    document.getElementById("btnVoltarMatriz").style.display =
-        isMatriz() ? "none" : "inline-block";
+async function carregarSessao(){
+    usuarioAtual = await getUsuarioAtual();
+    autenticado = !!usuarioAtual;
+    atualizarTopo();
 }
 
-function controlarAreaMatriz(){
-    document.getElementById("areaMatriz").style.display =
-        isMatriz() ? "flex" : "none";
-}
+async function carregarPostsDoBackend(){
+    try{
+        const data = await listarPosts();
 
-function voltarMatriz(){
-    const novo = {
-        tipo: "matriz",
-        nome: "Matriz",
-        congregacao_id: null,
-        departamento: null,
-        departamento_nome: null
-    };
-
-    storage.set("app_context", novo);
-    window.location.href = "feed.html";
-}
-
-function limparDepartamento(){
-    const novoContexto = {
-        ...context,
-        departamento: null,
-        departamento_nome: null
-    };
-
-    storage.set("app_context", novoContexto);
-    window.location.href = "feed.html";
-}
-
-function getPostsFiltrados(){
-    let lista = [...posts];
-
-    if(!isMatriz()){
-        lista = lista.filter(p => p.congregacao_id === context.congregacao_id);
+        posts = data.map(p => ({
+            id: p.id,
+            texto: p.conteudo,
+            data: p.criado_em,
+            congregacao_nome: p.congregacao_nome || "IECA",
+            autor_nome: p.autor_nome || "Usuário"
+        }));
+    }catch(error){
+        console.error(error);
+        posts = [];
     }
-
-    if(context.departamento){
-        lista = lista.filter(p => p.departamento === context.departamento);
-    }
-
-    return lista;
-}
-
-function criarPost(){
-    const texto = document.getElementById("texto").value.trim();
-
-    if(!texto && !arquivoSelecionado){
-        alert("Escreva uma mensagem ou selecione um arquivo.");
-        return;
-    }
-
-    const postBase = {
-        id: gerarId(),
-        texto,
-        data: new Date().toISOString(),
-        congregacao_id: context.congregacao_id,
-        congregacao_nome: context.nome || "Matriz",
-        departamento: context.departamento || null,
-        departamento_nome: context.departamento_nome || null,
-        arquivo: null
-    };
-
-    if(arquivoSelecionado){
-        const reader = new FileReader();
-
-        reader.onload = function(e){
-            postBase.arquivo = {
-                nome: arquivoSelecionado.name,
-                tipo: arquivoSelecionado.type,
-                url: e.target.result
-            };
-
-            posts.push(postBase);
-            storage.set("posts", posts);
-            limparComposer();
-            render();
-        };
-
-        reader.readAsDataURL(arquivoSelecionado);
-        return;
-    }
-
-    posts.push(postBase);
-    storage.set("posts", posts);
-    limparComposer();
-    render();
-}
-
-function renderMidia(arquivo){
-    if(!arquivo || !arquivo.url) return "";
-
-    const tipo = arquivo.tipo || "";
-    const nome = escaparHTML(arquivo.nome || "arquivo");
-
-    if(tipo.startsWith("image/")){
-        return `
-            <div class="post-media">
-                <img src="${arquivo.url}" alt="${nome}">
-            </div>
-        `;
-    }
-
-    if(tipo.startsWith("video/")){
-        return `
-            <div class="post-media">
-                <video controls>
-                    <source src="${arquivo.url}" type="${tipo}">
-                    Seu navegador não suporta vídeo.
-                </video>
-            </div>
-        `;
-    }
-
-    return `
-        <div class="post-media">
-            <a href="${arquivo.url}" download="${nome}">📄 Baixar ${nome}</a>
-        </div>
-    `;
 }
 
 function render(){
     const feed = document.getElementById("feed");
     feed.innerHTML = "";
 
-    const lista = getPostsFiltrados()
-        .sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
-
-    if(!lista.length){
+    if(!posts.length){
         feed.innerHTML = `
             <div class="empty-feed">
-                Nenhuma publicação encontrada para este feed.
+                Nenhuma publicação encontrada.
             </div>
         `;
         return;
     }
 
-    lista.forEach(p => {
+    posts.forEach(p => {
         feed.innerHTML += `
             <div class="post">
                 <div class="post-header">
                     <div class="post-tags">
-                        <span class="post-igreja">${escaparHTML(p.congregacao_nome || "Sem congregação")}</span>
-                        ${p.departamento_nome ? `<span class="post-departamento">${escaparHTML(p.departamento_nome)}</span>` : ""}
+                        <span class="post-igreja">${escaparHTML(p.congregacao_nome)}</span>
+                        <span class="post-autor">${escaparHTML(p.autor_nome)}</span>
                     </div>
                     <span class="post-data">${formatarData(p.data)}</span>
                 </div>
 
-                ${p.texto ? `<p>${escaparHTML(p.texto)}</p>` : ""}
-                ${renderMidia(p.arquivo)}
+                <p>${escaparHTML(p.texto)}</p>
             </div>
         `;
     });
 }
 
-function verificarLive(){
-    const live = storage.get("live", {});
-    document.getElementById("liveStatus").innerText =
-        live && live.ativo ? "🔴 AO VIVO AGORA" : "Nenhuma transmissão ao vivo no momento";
-}
-
-function abrirYoutube(){
-    window.open("https://youtube.com/@SEUCANAL", "_blank");
-}
-
-function toggleMenu(){
-    const menu = document.getElementById("uploadMenu");
-    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-}
-
-function selecionarArquivo(accept){
-    const input = document.getElementById("midia");
-    input.accept = accept;
-    document.getElementById("uploadMenu").style.display = "none";
-    input.click();
-}
-
-document.getElementById("midia").addEventListener("change", function(event){
-    const arquivo = event.target.files[0];
-
-    if(!arquivo){
-        arquivoSelecionado = null;
-        atualizarPreviewArquivo();
+window.criarPostHandler = async function(){
+    if(!autenticado){
+        alert("Faça login para publicar.");
         return;
     }
 
-    arquivoSelecionado = arquivo;
-    atualizarPreviewArquivo();
-});
+    const texto = document.getElementById("texto").value.trim();
 
-function atualizarPreviewArquivo(){
-    const preview = document.getElementById("filePreview");
-    const texto = document.getElementById("filePreviewText");
-
-    if(!arquivoSelecionado){
-        preview.style.display = "none";
-        texto.innerText = "Nenhum arquivo selecionado";
+    if(!texto){
+        alert("Escreva uma mensagem.");
         return;
     }
 
-    preview.style.display = "flex";
-    texto.innerText = `Arquivo selecionado: ${arquivoSelecionado.name}`;
-}
-
-function removerArquivo(){
-    arquivoSelecionado = null;
-    document.getElementById("midia").value = "";
-    atualizarPreviewArquivo();
-}
-
-function limparComposer(){
-    document.getElementById("texto").value = "";
-    document.getElementById("midia").value = "";
-    arquivoSelecionado = null;
-    document.getElementById("uploadMenu").style.display = "none";
-    atualizarPreviewArquivo();
-}
-
-document.addEventListener("click", function(event){
-    const menu = document.getElementById("uploadMenu");
-    const plus = document.querySelector(".btn-plus");
-
-    if(!menu.contains(event.target) && !plus.contains(event.target)){
-        menu.style.display = "none";
+    try{
+        await criarPost(texto);
+        document.getElementById("texto").value = "";
+        await carregarPostsDoBackend();
+        render();
+    }catch(error){
+        alert(error.message);
     }
-});
+};
 
-controlarBotaoMatriz();
-atualizarTitulo();
-controlarAreaMatriz();
-render();
-verificarLive();
+window.logout = async function(){
+    await logoutRequest();
+};
+
+window.irParaAreaProtegida = function(url){
+    if(!autenticado){
+        alert("Faça login para acessar esta área.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    window.location.href = url;
+};
+
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+if(menuToggle && sidebar && sidebarOverlay){
+    menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        sidebarOverlay.classList.toggle("show");
+    });
+
+    sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("show");
+    });
+
+    window.addEventListener("resize", () => {
+        if(window.innerWidth > 768){
+            sidebar.classList.remove("open");
+            sidebarOverlay.classList.remove("show");
+        }
+    });
+}
+
+async function iniciar(){
+    await carregarSessao();
+    await carregarPostsDoBackend();
+    render();
+}
+
+iniciar();
 </script>
 
 </body>

@@ -14,7 +14,7 @@ class Usuario(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha_hash = db.Column(db.String(255), nullable=False)
 
-    # admin, pastor, lider, secretaria, financeiro, membro
+    # admin, pastor, lider, secretaria, financeiro
     tipo = db.Column(db.String(50), nullable=False, default="membro")
 
     ativo = db.Column(db.Boolean, default=True)
@@ -22,6 +22,12 @@ class Usuario(db.Model):
     congregacao_id = db.Column(
         db.Integer,
         db.ForeignKey("congregacoes.id"),
+        nullable=True
+    )
+
+    departamento_id = db.Column(
+        db.Integer,
+        db.ForeignKey("departamentos.id"),
         nullable=True
     )
 
@@ -35,6 +41,8 @@ class Usuario(db.Model):
     posts = db.relationship("Post", backref="autor", lazy=True)
     lancamentos = db.relationship("LancamentoFinanceiro", backref="usuario", lazy=True)
     estudos = db.relationship("Estudo", backref="autor", lazy=True)
+
+    departamento = db.relationship("Departamento", backref="usuarios", lazy=True)
 
     def set_senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
@@ -50,6 +58,9 @@ class Usuario(db.Model):
             "tipo": self.tipo,
             "ativo": self.ativo,
             "congregacao_id": self.congregacao_id,
+            "congregacao_nome": self.congregacao.nome if self.congregacao else None,
+            "departamento_id": self.departamento_id,
+            "departamento_nome": self.departamento.nome if self.departamento else None,
             "criado_em": self.criado_em.isoformat() if self.criado_em else None,
             "atualizado_em": self.atualizado_em.isoformat() if self.atualizado_em else None
         }
@@ -66,6 +77,12 @@ class Congregacao(db.Model):
     endereco = db.Column(db.String(255), nullable=True)
     cidade = db.Column(db.String(120), nullable=True)
     pastor_nome = db.Column(db.String(120), nullable=True)
+
+    # 🔥 NOVO (responsáveis)
+    responsavel_nome = db.Column(db.String(150), nullable=True)
+    responsavel_funcao = db.Column(db.String(100), nullable=True)
+    responsavel_whatsapp = db.Column(db.String(20), nullable=True)
+
     ativa = db.Column(db.Boolean, default=True)
 
     criada_em = db.Column(db.DateTime, default=datetime.utcnow)
@@ -81,6 +98,10 @@ class Congregacao(db.Model):
     lancamentos = db.relationship("LancamentoFinanceiro", backref="congregacao", lazy=True)
     estudos = db.relationship("Estudo", backref="congregacao", lazy=True)
 
+    membros = db.relationship("Membro", backref="congregacao", lazy=True)
+    ocorrencias = db.relationship("Ocorrencia", backref="congregacao", lazy=True)
+    patrimonios = db.relationship("Patrimonio", backref="congregacao", lazy=True)
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -88,6 +109,9 @@ class Congregacao(db.Model):
             "endereco": self.endereco,
             "cidade": self.cidade,
             "pastor_nome": self.pastor_nome,
+            "responsavel_nome": self.responsavel_nome,
+            "responsavel_funcao": self.responsavel_funcao,
+            "responsavel_whatsapp": self.responsavel_whatsapp,
             "ativa": self.ativa,
             "criada_em": self.criada_em.isoformat() if self.criada_em else None,
             "atualizada_em": self.atualizada_em.isoformat() if self.atualizada_em else None
@@ -127,55 +151,96 @@ class Departamento(db.Model):
             "lider_nome": self.lider_nome,
             "ativo": self.ativo,
             "congregacao_id": self.congregacao_id,
-            "criado_em": self.criado_em.isoformat() if self.criado_em else None,
-            "atualizado_em": self.atualizado_em.isoformat() if self.atualizado_em else None
+            "congregacao_nome": self.congregacao.nome if self.congregacao else None
         }
 
 
 # =============================
-# POSTS / FEED
+# MEMBROS
+# =============================
+class Membro(db.Model):
+    __tablename__ = "membros"
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(150), nullable=False)
+    telefone = db.Column(db.String(30))
+    endereco = db.Column(db.String(255))
+    cargo = db.Column(db.String(80))
+    batismo = db.Column(db.String(20))
+    entrada = db.Column(db.String(20))
+    desligamento = db.Column(db.String(20))
+
+    congregacao_id = db.Column(
+        db.Integer,
+        db.ForeignKey("congregacoes.id"),
+        nullable=False
+    )
+
+    criado_em = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "telefone": self.telefone,
+            "cargo": self.cargo,
+            "congregacao_nome": self.congregacao.nome if self.congregacao else None
+        }
+
+
+# =============================
+# OCORRÊNCIAS
+# =============================
+class Ocorrencia(db.Model):
+    __tablename__ = "ocorrencias"
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome_membro = db.Column(db.String(150), nullable=False)
+    descricao = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(20), default="nao")
+
+    congregacao_id = db.Column(
+        db.Integer,
+        db.ForeignKey("congregacoes.id"),
+        nullable=False
+    )
+
+    criado_em = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+# =============================
+# PATRIMÔNIO
+# =============================
+class Patrimonio(db.Model):
+    __tablename__ = "patrimonios"
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(150), nullable=False)
+    categoria = db.Column(db.String(100))
+    quantidade = db.Column(db.Integer, default=1)
+
+    congregacao_id = db.Column(
+        db.Integer,
+        db.ForeignKey("congregacoes.id"),
+        nullable=False
+    )
+
+
+# =============================
+# POSTS
 # =============================
 class Post(db.Model):
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(150), nullable=False)
+    titulo = db.Column(db.String(150))
     conteudo = db.Column(db.Text, nullable=False)
 
-    autor_id = db.Column(
-        db.Integer,
-        db.ForeignKey("usuarios.id"),
-        nullable=False
-    )
+    autor_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"))
 
-    congregacao_id = db.Column(
-        db.Integer,
-        db.ForeignKey("congregacoes.id"),
-        nullable=True
-    )
-
-    departamento = db.Column(db.String(120), nullable=True)
+    congregacao_id = db.Column(db.Integer, db.ForeignKey("congregacoes.id"))
 
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
-    atualizado_em = db.Column(
-        db.DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow
-    )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "titulo": self.titulo,
-            "conteudo": self.conteudo,
-            "autor_id": self.autor_id,
-            "autor_nome": self.autor.nome if self.autor else None,
-            "congregacao_id": self.congregacao_id,
-            "congregacao_nome": self.congregacao.nome if self.congregacao else None,
-            "departamento": self.departamento,
-            "criado_em": self.criado_em.isoformat() if self.criado_em else None,
-            "atualizado_em": self.atualizado_em.isoformat() if self.atualizado_em else None
-        }
 
 
 # =============================
@@ -186,46 +251,13 @@ class LancamentoFinanceiro(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(150), nullable=False)
+    tipo = db.Column(db.String(20))  # entrada / saida
+    valor = db.Column(db.Float)
 
-    # entrada | saida
-    tipo = db.Column(db.String(20), nullable=False)
-
-    valor = db.Column(db.Float, nullable=False)
-    categoria = db.Column(db.String(100), nullable=True)
-
-    congregacao_id = db.Column(
-        db.Integer,
-        db.ForeignKey("congregacoes.id"),
-        nullable=True
-    )
-
-    criado_por = db.Column(
-        db.Integer,
-        db.ForeignKey("usuarios.id"),
-        nullable=False
-    )
+    congregacao_id = db.Column(db.Integer, db.ForeignKey("congregacoes.id"))
+    criado_por = db.Column(db.Integer, db.ForeignKey("usuarios.id"))
 
     data_lancamento = db.Column(db.DateTime, default=datetime.utcnow)
-    atualizado_em = db.Column(
-        db.DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow
-    )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "descricao": self.descricao,
-            "tipo": self.tipo,
-            "valor": self.valor,
-            "categoria": self.categoria,
-            "congregacao_id": self.congregacao_id,
-            "congregacao_nome": self.congregacao.nome if self.congregacao else None,
-            "criado_por": self.criado_por,
-            "criado_por_nome": self.usuario.nome if self.usuario else None,
-            "data_lancamento": self.data_lancamento.isoformat() if self.data_lancamento else None,
-            "atualizado_em": self.atualizado_em.isoformat() if self.atualizado_em else None
-        }
 
 
 # =============================
@@ -235,46 +267,8 @@ class Estudo(db.Model):
     __tablename__ = "estudos"
 
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(150), nullable=False)
-    descricao = db.Column(db.Text, nullable=True)
+    titulo = db.Column(db.String(150))
+    descricao = db.Column(db.Text)
 
-    # pdf, video, link, texto
-    tipo = db.Column(db.String(50), nullable=False, default="texto")
-
-    conteudo = db.Column(db.Text, nullable=True)
-    link = db.Column(db.String(255), nullable=True)
-
-    congregacao_id = db.Column(
-        db.Integer,
-        db.ForeignKey("congregacoes.id"),
-        nullable=True
-    )
-
-    autor_id = db.Column(
-        db.Integer,
-        db.ForeignKey("usuarios.id"),
-        nullable=False
-    )
-
-    criado_em = db.Column(db.DateTime, default=datetime.utcnow)
-    atualizado_em = db.Column(
-        db.DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow
-    )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "titulo": self.titulo,
-            "descricao": self.descricao,
-            "tipo": self.tipo,
-            "conteudo": self.conteudo,
-            "link": self.link,
-            "congregacao_id": self.congregacao_id,
-            "congregacao_nome": self.congregacao.nome if self.congregacao else None,
-            "autor_id": self.autor_id,
-            "autor_nome": self.autor.nome if self.autor else None,
-            "criado_em": self.criado_em.isoformat() if self.criado_em else None,
-            "atualizado_em": self.atualizado_em.isoformat() if self.atualizado_em else None
-        }
+    autor_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"))
+    congregacao_id = db.Column(db.Integer, db.ForeignKey("congregacoes.id"))

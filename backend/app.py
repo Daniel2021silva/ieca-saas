@@ -1,39 +1,79 @@
 import os
-from flask import Flask, jsonify
-from flask_cors import CORS
-from config import Config
+from flask import Flask, send_from_directory
+
 from database.db import db
-import models
+
 from routes.auth_routes import auth_bp
+from routes.posts_routes import posts_bp
+from routes.congregacoes_routes import congregacoes_bp
+from routes.secretaria_routes import secretaria_bp
+from routes.financeiro_routes import financeiro_bp
 
-app = Flask(__name__)
-app.config.from_object(Config)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
+DB_PATH = os.path.join(BASE_DIR, "database", "igreja.db")
 
-os.makedirs(app.config["DATABASE_DIR"], exist_ok=True)
+app = Flask(
+    __name__,
+    static_folder=PROJECT_ROOT,
+    static_url_path=""
+)
+
+app.config["SECRET_KEY"] = "ieca-chave-secreta-forte-troque-isso"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH}"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
-CORS(app, supports_credentials=True)
-
-app.register_blueprint(auth_bp, url_prefix="/api/auth")
-
-@app.route("/")
-def home():
-    return jsonify({
-        "status": "ok",
-        "mensagem": "Backend IECA funcionando"
-    })
-
-@app.route("/api/health")
-def health():
-    return jsonify({
-        "status": "ok",
-        "backend": "flask",
-        "database": "sqlite"
-    })
 
 with app.app_context():
+    from models import (
+        Usuario,
+        Congregacao,
+        Departamento,
+        Membro,
+        Ocorrencia,
+        Patrimonio,
+        Post,
+        LancamentoFinanceiro,
+        Estudo
+    )
+
     db.create_all()
 
+app.register_blueprint(auth_bp)
+app.register_blueprint(posts_bp)
+app.register_blueprint(congregacoes_bp)
+app.register_blueprint(secretaria_bp)
+app.register_blueprint(financeiro_bp)
+
+
+# =============================
+# ROTAS DE PÁGINAS
+# =============================
+@app.get("/")
+def home():
+    return send_from_directory(PROJECT_ROOT, "index.html")
+
+
+@app.get("/index.html")
+def index_html():
+    return send_from_directory(PROJECT_ROOT, "index.html")
+
+
+@app.get("/feed.html")
+def feed():
+    return send_from_directory(PROJECT_ROOT, "feed.html")
+
+
+@app.get("/register.html")
+def register():
+    return send_from_directory(PROJECT_ROOT, "register.html")
+
+
+@app.get("/pages/<path:filename>")
+def pages(filename):
+    return send_from_directory(os.path.join(PROJECT_ROOT, "pages"), filename)
+
+
 if __name__ == "__main__":
-    print("iniciando backend...")
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

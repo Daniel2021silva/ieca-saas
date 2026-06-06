@@ -158,6 +158,12 @@
         border: 1px solid #bfe9cc;
     }
 
+    .status-error{
+        background: #fff1f2;
+        color: #b42318;
+        border: 1px solid #fecdd3;
+    }
+
     .rodape{
         text-align: center;
         margin-top: 14px;
@@ -173,45 +179,45 @@
     <h2>IECA</h2>
     <p class="subtitulo">Sistema de gestão e comunicação da igreja</p>
 
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="senha" placeholder="Senha">
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Email" autocomplete="username">
+        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
 
-    <button onclick="login()">Entrar</button>
-    <button class="btn-secundario" onclick="entrarVisitante()">Ver demonstração</button>
+        <button type="submit">Entrar</button>
+        <button type="button" class="btn-secundario" onclick="entrarVisitante()">Ver demonstração</button>
+    </form>
 
     <div id="status" class="status-msg status-info"></div>
 
-    <p class="publico" onclick="preencherDemo()">
-        Preencher acesso de demonstração
+    <p class="publico" onclick="preencherAdmin()">
+        Preencher acesso administrador
     </p>
 
     <div class="demo-info">
-        <strong>Acesso demo:</strong><br>
-        Email: demo@ieca.com<br>
-        Senha: 123456
+        <strong>Acesso inicial:</strong><br>
+        moises@ieca.local / 123456<br>
+        daniel@ieca.local / 123456
     </div>
 
     <div class="lang">
-        <button onclick="setLang('pt')">🇧🇷</button>
-        <button onclick="setLang('en')">🇺🇸</button>
+        <button type="button" onclick="setLang('pt')">🇧🇷</button>
+        <button type="button" onclick="setLang('en')">🇺🇸</button>
     </div>
 
     <div class="rodape">
-        Versão de apresentação visual
+        Versão conectada ao backend
     </div>
 </div>
 
 <script>
-function salvarStorage(chave, valor){
-    localStorage.setItem(chave, JSON.stringify(valor));
-}
-
 function mostrarMensagem(texto, tipo = "info"){
     const status = document.getElementById("status");
     status.className = "status-msg show";
 
     if (tipo === "success") {
         status.classList.add("status-success");
+    } else if (tipo === "error") {
+        status.classList.add("status-error");
     } else {
         status.classList.add("status-info");
     }
@@ -219,76 +225,86 @@ function mostrarMensagem(texto, tipo = "info"){
     status.textContent = texto;
 }
 
-function preencherDemo(){
-    document.getElementById("email").value = "demo@ieca.com";
+function preencherAdmin(){
+    document.getElementById("email").value = "daniel@ieca.local";
     document.getElementById("senha").value = "123456";
-    mostrarMensagem("Credenciais demo preenchidas.", "info");
+    mostrarMensagem("Credenciais preenchidas.", "info");
 }
 
-function login(){
+function setLang(lang){
+    localStorage.setItem("lang", lang);
+    mostrarMensagem(lang === "pt" ? "Idioma alterado para Português." : "Language changed to English.", "info");
+}
+
+async function verificarSessao(){
+    try{
+        const response = await fetch("/api/auth/me", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if(!response.ok) return;
+
+        const data = await response.json();
+
+        if(data && data.autenticado){
+            window.location.href = "/feed.html";
+        }
+    }catch(error){
+        console.warn("Sessão não encontrada.");
+    }
+}
+
+async function loginReal(email, senha){
+    const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, senha })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok){
+        throw new Error(data.erro || "Falha ao fazer login.");
+    }
+
+    return data;
+}
+
+async function entrarVisitante(){
+    mostrarMensagem("Modo visitante desativado nesta versão de entrega.", "error");
+}
+
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value.trim();
 
     if (!email || !senha) {
-        mostrarMensagem("Preencha email e senha ou clique em 'Ver demonstração'.", "info");
+        mostrarMensagem("Preencha email e senha.", "error");
         return;
     }
 
-    if (email === "demo@ieca.com" && senha === "123456") {
-        const usuario = {
-            nome: "Administrador Demo",
-            tipo: "admin",
-            igreja: "IECA",
-            congregacao: "Matriz",
-            congregacao_id: 1
-        };
+    try{
+        mostrarMensagem("Entrando no sistema...", "info");
 
-        const context = {
-            nome: usuario.nome,
-            tipo: usuario.tipo,
-            igreja: usuario.igreja,
-            congregacao: usuario.congregacao,
-            congregacao_id: usuario.congregacao_id
-        };
+        const resultado = await loginReal(email, senha);
 
-        salvarStorage("usuario", usuario);
-        salvarStorage("app_context", context);
-
-        mostrarMensagem("Login demo realizado com sucesso! Redirecionando...", "success");
+        mostrarMensagem("Login realizado com sucesso! Redirecionando...", "success");
 
         setTimeout(() => {
-            window.location.href = "feed.html";
-        }, 800);
-
-        return;
+            window.location.href = resultado.redirect || "/feed.html";
+        }, 700);
+    }catch(error){
+        mostrarMensagem(error.message, "error");
     }
+});
 
-    mostrarMensagem("Este link está em modo demonstração. Use demo@ieca.com e 123456, ou clique em 'Ver demonstração'.", "info");
-}
-
-function entrarVisitante(){
-    const visitante = {
-        nome: "Visitante",
-        tipo: "visitante",
-        igreja: "IECA",
-        congregacao: "Matriz",
-        congregacao_id: 1
-    };
-
-    salvarStorage("usuario", visitante);
-    salvarStorage("app_context", visitante);
-
-    mostrarMensagem("Entrando como visitante...", "success");
-
-    setTimeout(() => {
-        window.location.href = "feed.html";
-    }, 600);
-}
-
-function setLang(lang){
-    salvarStorage("lang", lang);
-    mostrarMensagem(lang === "pt" ? "Idioma alterado para Português." : "Language changed to English.", "info");
-}
+verificarSessao();
 </script>
 
 </body>
