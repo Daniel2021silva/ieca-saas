@@ -13,77 +13,61 @@
 .page{max-width:1100px;margin:auto;padding:20px;}
 .card{background:white;padding:16px;border-radius:12px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.06);}
 input,select{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;}
-button{padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;}
+button{padding:10px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;margin:3px;}
 .primary{background:#007bff;color:white;}
 .danger{background:#dc2626;color:white;}
 .secondary{background:#e5e7eb;}
-.usuario{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap;}
+.success{background:#16a34a;color:white;}
+.usuario{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap;border-bottom:1px solid #eee;padding-bottom:10px;}
 </style>
 </head>
 
 <body>
 
 <div class="page">
-
 <h2>👥 Gestão de Usuários</h2>
 
 <div class="card">
-<h3>Novo Usuário</h3>
-
-<input id="nome" placeholder="Nome">
-<input id="email" placeholder="Email">
-<input id="senha" placeholder="Senha">
-
-<select id="tipo">
-    <option value="membro">Membro</option>
-    <option value="lider">Líder</option>
-    <option value="secretaria">Secretaria</option>
-    <option value="financeiro">Financeiro</option>
-    <option value="pastor">Pastor</option>
-</select>
-
-<button class="primary" onclick="criarUsuario()">Criar</button>
+<h3>Usuários cadastrados</h3>
+<div id="lista">Carregando...</div>
+</div>
 </div>
 
-<div class="card">
-<h3>Usuários</h3>
-<div id="lista"></div>
-</div>
+<script type="module">
+import { supabase } from "../js/services/supabase.js";
+import { getUsuarioAtual } from "../js/modules/auth.js";
 
-</div>
-
-<script>
 let usuarios = [];
 
 async function verificarSessao(){
-    const res = await fetch("/api/auth/me", { credentials: "include" });
+    const usuario = await getUsuarioAtual();
 
-    if(!res.ok){
+    if(!usuario){
         window.location.href = "../index.html";
-        return;
+        return null;
     }
 
-    const data = await res.json();
-
-    if(data.usuario.tipo !== "admin"){
-        alert("Apenas admin pode acessar");
+    if(usuario.tipo !== "matriz_admin"){
+        alert("Apenas administrador pode acessar esta página.");
         window.location.href = "../feed.html";
+        return null;
     }
+
+    return usuario;
 }
 
 async function carregarUsuarios(){
-    const res = await fetch("/api/auth/usuarios", {
-        credentials: "include"
-    });
+    const { data, error } = await supabase
+        .from("profiles")
+        .select("id,nome,email,tipo,ativo,congregacao_id")
+        .order("nome", { ascending: true });
 
-    const data = await res.json();
-
-    if(!res.ok){
-        alert(data.erro);
+    if(error){
+        alert("Erro ao carregar usuários: " + error.message);
         return;
     }
 
-    usuarios = data;
+    usuarios = data || [];
     render();
 }
 
@@ -91,21 +75,34 @@ function render(){
     const lista = document.getElementById("lista");
     lista.innerHTML = "";
 
+    if(!usuarios.length){
+        lista.innerHTML = "<p>Nenhum usuário encontrado.</p>";
+        return;
+    }
+
     usuarios.forEach(u => {
         lista.innerHTML += `
             <div class="usuario">
                 <div>
-                    <strong>${u.nome}</strong><br>
-                    ${u.email}<br>
-                    ${u.tipo} | ${u.ativo ? "Ativo" : "Inativo"}
+                    <strong>${u.nome || "Sem nome"}</strong><br>
+                    ${u.email || "Sem email"}<br>
+                    Perfil: <strong>${u.tipo}</strong><br>
+                    Status: ${u.ativo ? "Ativo" : "Inativo"}
                 </div>
 
                 <div>
-                    <button class="secondary" onclick="resetarSenha(${u.id})">
-                        Resetar senha
-                    </button>
+                    <select onchange="alterarTipo('${u.id}', this.value)">
+                        <option value="matriz_admin" ${u.tipo === "matriz_admin" ? "selected" : ""}>Administrador</option>
+                        <option value="pastor" ${u.tipo === "pastor" ? "selected" : ""}>Pastor</option>
+                        <option value="secretaria" ${u.tipo === "secretaria" ? "selected" : ""}>Secretaria</option>
+                        <option value="financeiro" ${u.tipo === "financeiro" ? "selected" : ""}>Financeiro</option>
+                        <option value="departamento" ${u.tipo === "departamento" ? "selected" : ""}>Departamento</option>
+                        <option value="membro" ${u.tipo === "membro" ? "selected" : ""}>Membro</option>
+                    </select>
 
-                    <button class="danger" onclick="toggleStatus(${u.id}, ${u.ativo})">
+                    <button class="secondary" onclick="resetarSenha('${u.email}')">Redefinir senha</button>
+
+                    <button class="${u.ativo ? "danger" : "success"}" onclick="toggleStatus('${u.id}', ${u.ativo})">
                         ${u.ativo ? "Desativar" : "Ativar"}
                     </button>
                 </div>
@@ -114,71 +111,64 @@ function render(){
     });
 }
 
-async function criarUsuario(){
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const tipo = document.getElementById("tipo").value;
+window.alterarTipo = async function(id, novoTipo){
+    const { error } = await supabase
+        .from("profiles")
+        .update({ tipo: novoTipo })
+        .eq("id", id);
 
-    const res = await fetch("/api/auth/usuarios", {
-        method:"POST",
-        headers: { "Content-Type": "application/json" },
-        credentials:"include",
-        body: JSON.stringify({ nome, email, senha, tipo })
-    });
-
-    const data = await res.json();
-
-    if(!res.ok){
-        alert(data.erro);
+    if(error){
+        alert("Erro ao alterar perfil: " + error.message);
         return;
     }
 
-    carregarUsuarios();
-}
+    await carregarUsuarios();
+};
 
-async function resetarSenha(id){
-    const nova_senha = prompt("Nova senha:");
+window.toggleStatus = async function(id, ativo){
+    const { error } = await supabase
+        .from("profiles")
+        .update({ ativo: !ativo })
+        .eq("id", id);
 
-    if(!nova_senha) return;
-
-    const res = await fetch(`/api/auth/usuarios/${id}/resetar-senha`, {
-        method:"PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials:"include",
-        body: JSON.stringify({ nova_senha })
-    });
-
-    const data = await res.json();
-
-    if(!res.ok){
-        alert(data.erro);
+    if(error){
+        alert("Erro ao alterar status: " + error.message);
         return;
     }
 
-    alert("Senha redefinida");
-}
+    await carregarUsuarios();
+};
 
-async function toggleStatus(id, ativo){
-    const res = await fetch(`/api/auth/usuarios/${id}/status`, {
-        method:"PUT",
-        headers: { "Content-Type": "application/json" },
-        credentials:"include",
-        body: JSON.stringify({ ativo: !ativo })
-    });
-
-    const data = await res.json();
-
-    if(!res.ok){
-        alert(data.erro);
+window.resetarSenha = async function(email){
+    if(!email){
+        alert("Usuário sem email.");
         return;
     }
 
-    carregarUsuarios();
+    const confirmar = confirm("Enviar email de redefinição de senha para " + email + "?");
+
+    if(!confirmar) return;
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://ieca.site/index.html"
+    });
+
+    if(error){
+        alert("Erro ao enviar redefinição: " + error.message);
+        return;
+    }
+
+    alert("Email de redefinição enviado.");
+};
+
+async function iniciar(){
+    const usuario = await verificarSessao();
+    if(!usuario) return;
+
+    await carregarUsuarios();
 }
 
-verificarSessao();
-carregarUsuarios();
+iniciar();
 </script>
 
 </body>
