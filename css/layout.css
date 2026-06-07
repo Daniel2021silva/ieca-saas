@@ -15,6 +15,7 @@
     left: 0;
     top: 0;
     width: 240px;
+    min-width: 240px;
     height: 100vh;
     background: linear-gradient(180deg, #111, #1a1a1a);
     color: #fff;
@@ -23,13 +24,15 @@
     flex-direction: column;
     z-index: 1000;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* LOGO */
 .sidebar h2{
-    margin-bottom: 30px;
+    margin: 0 0 30px 0;
     color: #ff6600;
     font-size: 22px;
+    line-height: 1.2;
 }
 
 /* MENU */
@@ -42,6 +45,7 @@
 
 /* ITEM */
 .sidebar li{
+    width: 100%;
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -50,6 +54,20 @@
     align-items: center;
     gap: 10px;
     transition: 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* ÍCONE */
+.sidebar li i{
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+/* TEXTO */
+.sidebar li span{
+    font-size: 14px;
 }
 
 /* HOVER */
@@ -74,7 +92,9 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 20px;
+    transition: all 0.3s ease;
 }
 
 /* =========================
@@ -119,7 +139,6 @@
     margin: 30px auto 20px auto;
 }
 
-/* REFERÊNCIA PARA O MENU */
 .message-box{
     width: 100%;
     position: relative;
@@ -144,132 +163,44 @@
 }
 
 /* =========================
-   BOTÃO MENU MOBILE
+   TABELAS
 ========================= */
-.menu-toggle{
-    display: none;
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 1101;
-    background: #ff6600;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    cursor: pointer;
+.table-wrapper{
+    width: 100%;
+    overflow-x: auto;
 }
 
 /* =========================
-   OVERLAY MOBILE
-========================= */
-.sidebar-overlay{
-    display: none;
-}
-
-/* =========================
-   RESPONSIVO
+   MOBILE
 ========================= */
 @media(max-width: 768px){
 
-    .app{
-        display: block;
-    }
-
-    .sidebar{
-        width: 250px;
-        max-width: 85%;
-        padding: 20px 14px;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        box-shadow: 8px 0 24px rgba(0,0,0,0.25);
-    }
-
-    .sidebar.open{
-        transform: translateX(0);
-    }
-
-    .sidebar h2{
-        display: block;
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-
-    .sidebar li{
-        justify-content: flex-start;
-        font-size: 16px;
-    }
-
-    .sidebar li span{
-        display: inline;
-        font-size: 14px;
-    }
-
-    .main-content{
-        margin-left: 0;
+    html,
+    body{
         width: 100%;
-        padding: 70px 12px 12px 12px;
-    }
-
-    .container{
         max-width: 100%;
-        padding: 10px 0 20px 0;
+        overflow-x: hidden;
     }
 
-    .feed{
+    .app{
+        display: flex;
+        width: 100%;
         max-width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
     }
-
-    .message-container{
-        max-width: 100%;
-        margin-top: 15px;
-    }
-
-    .upload-menu{
-        left: 10px;
-        top: 60px;
-        transform: none;
-    }
-
-    .menu-toggle{
-        display: block;
-    }
-
-    .sidebar-overlay.show{
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.35);
-        z-index: 999;
-    }
-
-    .topo{
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-}
-
-/* =========================
-   ANIMAÇÃO
-========================= */
-.sidebar,
-.main-content{
-    transition: all 0.3s ease;
-}
-
-.sidebar li span{
-    font-size: 14px;
-}
-
-@media (max-width: 768px){
 
     .sidebar{
-        width: 72px !important;
-        padding: 12px 6px !important;
+        width: 68px !important;
+        min-width: 68px !important;
+        max-width: 68px !important;
+        height: 100vh !important;
+        padding: 12px 5px !important;
         overflow-x: hidden !important;
+        overflow-y: auto !important;
+        position: fixed !important;
+        left: 0 !important;
+        top: 0 !important;
     }
 
     .sidebar h2{
@@ -279,30 +210,133 @@
     .sidebar ul{
         padding: 0 !important;
         margin: 0 !important;
+        width: 100% !important;
     }
 
     .sidebar li{
+        width: 100% !important;
+        min-height: 48px !important;
         justify-content: center !important;
+        align-items: center !important;
         text-align: center !important;
         font-size: 0 !important;
-        padding: 16px 0 !important;
+        padding: 14px 0 !important;
+        margin-bottom: 8px !important;
+        gap: 0 !important;
         overflow: hidden !important;
         white-space: nowrap !important;
     }
 
     .sidebar li i{
-        font-size: 24px !important;
+        width: auto !important;
+        min-width: auto !important;
+        font-size: 22px !important;
         margin: 0 !important;
+        text-align: center !important;
+    }
+
+    .sidebar li span,
+    .sidebar li p,
+    .sidebar li strong,
+    .sidebar li small{
+        display: none !important;
     }
 
     .main-content{
-        margin-left: 72px !important;
-        width: calc(100% - 72px) !important;
-        padding: 14px !important;
+        margin-left: 68px !important;
+        width: calc(100% - 68px) !important;
+        max-width: calc(100% - 68px) !important;
+        min-height: 100vh !important;
+        padding: 10px !important;
+        overflow-x: hidden !important;
+    }
+
+    .topo{
+        width: 100% !important;
+        padding: 12px !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        align-items: flex-start !important;
+        position: relative !important;
+        top: auto !important;
+    }
+
+    .topo h1,
+    .topo h2{
+        font-size: 20px !important;
+        line-height: 1.2 !important;
+        word-break: break-word !important;
+    }
+
+    .topo p{
+        font-size: 13px !important;
     }
 
     .container{
         width: 100% !important;
         max-width: 100% !important;
+        padding: 8px 0 20px 0 !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    .feed{
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .message-container{
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 15px 0 18px 0 !important;
+    }
+
+    .message-box{
+        width: 100% !important;
+    }
+
+    .upload-menu{
+        left: 0 !important;
+        top: 58px !important;
+        transform: none !important;
+        max-width: 220px !important;
+    }
+
+    table{
+        min-width: 700px;
+    }
+}
+
+/* =========================
+   MOBILE MUITO PEQUENO
+========================= */
+@media(max-width: 420px){
+
+    .sidebar{
+        width: 62px !important;
+        min-width: 62px !important;
+        max-width: 62px !important;
+        padding: 10px 4px !important;
+    }
+
+    .sidebar li{
+        padding: 13px 0 !important;
+        min-height: 46px !important;
+    }
+
+    .sidebar li i{
+        font-size: 20px !important;
+    }
+
+    .main-content{
+        margin-left: 62px !important;
+        width: calc(100% - 62px) !important;
+        max-width: calc(100% - 62px) !important;
+        padding: 8px !important;
+    }
+
+    .topo h1,
+    .topo h2{
+        font-size: 18px !important;
     }
 }
