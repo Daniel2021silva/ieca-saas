@@ -25,17 +25,15 @@
     z-index: 1000;
     overflow-y: auto;
     overflow-x: hidden;
+    transition: left .3s ease;
 }
 
-/* LOGO */
 .sidebar h2{
     margin: 0 0 30px 0;
     color: #ff6600;
     font-size: 22px;
-    line-height: 1.2;
 }
 
-/* MENU */
 .sidebar ul{
     list-style: none;
     width: 100%;
@@ -43,7 +41,6 @@
     margin: 0;
 }
 
-/* ITEM */
 .sidebar li{
     width: 100%;
     padding: 12px;
@@ -53,29 +50,21 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: 0.3s;
+    transition: .3s;
     white-space: nowrap;
     overflow: hidden;
 }
 
-/* ÍCONE */
 .sidebar li i{
     flex-shrink: 0;
     width: 22px;
     text-align: center;
 }
 
-/* TEXTO */
-.sidebar li span{
-    font-size: 14px;
-}
-
-/* HOVER */
 .sidebar li:hover{
-    background: rgba(255,102,0,0.2);
+    background: rgba(255,102,0,.2);
 }
 
-/* ATIVO */
 .sidebar li.active{
     background: #ff6600;
     color: #fff;
@@ -94,15 +83,12 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 20px;
-    transition: all 0.3s ease;
+    transition: all .3s ease;
 }
 
-/* =========================
-   HEADER (TOPO)
-========================= */
 .topo{
     background: #fff;
-    padding: 20px 20px 25px 20px;
+    padding: 20px 20px 25px;
     border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
@@ -113,30 +99,21 @@
     border-radius: 10px;
 }
 
-/* =========================
-   CONTAINER
-========================= */
 .container{
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 10px 10px 20px 10px;
+    padding: 10px 10px 20px;
 }
 
-/* =========================
-   FEED
-========================= */
 .feed{
     max-width: 800px;
     margin: 0 auto;
 }
 
-/* =========================
-   CAIXA DE MENSAGEM
-========================= */
 .message-container{
     max-width: 800px;
-    margin: 30px auto 20px auto;
+    margin: 30px auto 20px;
 }
 
 .message-box{
@@ -144,9 +121,6 @@
     position: relative;
 }
 
-/* =========================
-   MENU DO "+"
-========================= */
 .upload-menu{
     position: absolute;
     top: 50%;
@@ -159,15 +133,42 @@
     flex-direction: column;
     gap: 5px;
     z-index: 9999;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,.2);
 }
 
-/* =========================
-   TABELAS
-========================= */
 .table-wrapper{
     width: 100%;
     overflow-x: auto;
+}
+
+/* =========================
+   MENU MOBILE
+========================= */
+.menu-toggle{
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1101;
+    background: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 13px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sidebar-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    display: none;
+    z-index: 999;
+}
+
+.sidebar-overlay.show{
+    display: block;
 }
 
 /* =========================
@@ -183,77 +184,56 @@
     }
 
     .app{
-        display: flex;
+        display: block;
         width: 100%;
         max-width: 100%;
-        min-height: 100vh;
-        overflow-x: hidden;
     }
 
     .sidebar{
-        width: 68px !important;
-        min-width: 68px !important;
-        max-width: 68px !important;
+        left: -260px !important;
+        width: 260px !important;
+        min-width: 260px !important;
+        max-width: 260px !important;
         height: 100vh !important;
-        padding: 12px 5px !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        position: fixed !important;
+        padding: 20px !important;
+    }
+
+    .sidebar.open{
         left: 0 !important;
-        top: 0 !important;
     }
 
     .sidebar h2{
-        display: none !important;
-    }
-
-    .sidebar ul{
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 100% !important;
+        display: block !important;
     }
 
     .sidebar li{
-        width: 100% !important;
-        min-height: 48px !important;
-        justify-content: center !important;
-        align-items: center !important;
-        text-align: center !important;
-        font-size: 0 !important;
-        padding: 14px 0 !important;
-        margin-bottom: 8px !important;
-        gap: 0 !important;
-        overflow: hidden !important;
-        white-space: nowrap !important;
+        justify-content: flex-start !important;
+        font-size: 15px !important;
+        gap: 10px !important;
+        padding: 12px !important;
     }
 
     .sidebar li i{
-        width: auto !important;
-        min-width: auto !important;
-        font-size: 22px !important;
-        margin: 0 !important;
-        text-align: center !important;
-    }
-
-    .sidebar li span,
-    .sidebar li p,
-    .sidebar li strong,
-    .sidebar li small{
-        display: none !important;
+        font-size: 18px !important;
+        width: 22px !important;
     }
 
     .main-content{
-        margin-left: 68px !important;
-        width: calc(100% - 68px) !important;
-        max-width: calc(100% - 68px) !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
         min-height: 100vh !important;
-        padding: 10px !important;
+        padding: 62px 12px 16px !important;
         overflow-x: hidden !important;
+    }
+
+    .menu-toggle{
+        display: block !important;
     }
 
     .topo{
         width: 100% !important;
-        padding: 12px !important;
+        padding: 14px !important;
         flex-wrap: wrap !important;
         gap: 10px !important;
         align-items: flex-start !important;
@@ -263,36 +243,22 @@
 
     .topo h1,
     .topo h2{
-        font-size: 20px !important;
+        font-size: 22px !important;
         line-height: 1.2 !important;
         word-break: break-word !important;
     }
 
-    .topo p{
-        font-size: 13px !important;
+    .container,
+    .feed,
+    .message-container{
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 
     .container{
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 8px 0 20px 0 !important;
-        margin: 0 !important;
-        overflow-x: hidden !important;
-    }
-
-    .feed{
-        max-width: 100% !important;
-        width: 100% !important;
-    }
-
-    .message-container{
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 15px 0 18px 0 !important;
-    }
-
-    .message-box{
-        width: 100% !important;
+        padding: 8px 0 20px !important;
     }
 
     .upload-menu{
@@ -306,36 +272,6 @@
         min-width: 700px;
     }
 }
-/* =========================
-   MOBILE
-========================= */
-@media(max-width: 768px){
-
-    .sidebar{
-        position: fixed;
-        top: 0;
-        left: -260px;
-        width: 260px;
-        height: 100vh;
-        z-index: 1000;
-        transition: left .3s ease;
-    }
-
-    .sidebar.open{
-        left: 0;
-    }
-
-    .main-content{
-        margin-left: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 12px !important;
-    }
-
-    .menu-toggle{
-        display: block;
-    }
-}
 
 /* =========================
    DESKTOP
@@ -343,16 +279,16 @@
 @media(min-width: 769px){
 
     .sidebar{
-        left: 0;
-        width: 260px;
+        left: 0 !important;
+        width: 240px !important;
     }
 
     .main-content{
-        margin-left: 260px;
-        width: calc(100% - 260px);
+        margin-left: 240px !important;
+        width: calc(100% - 240px) !important;
     }
 
     .menu-toggle{
-        display: none;
+        display: none !important;
     }
 }
