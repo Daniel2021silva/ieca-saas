@@ -1,11 +1,10 @@
-// 🔐 PEGAR USUÁRIO LOGADO
+// js/modules/permissoes.js
+
 function getUser(){
-    return JSON.parse(localStorage.getItem("ieca_user"));
+    return JSON.parse(localStorage.getItem("usuario"));
 }
 
-// 🔒 PROTEGER PÁGINAS (LOGIN OBRIGATÓRIO)
 function protegerPagina(){
-
     const usuario = getUser();
 
     if(!usuario){
@@ -17,43 +16,49 @@ function protegerPagina(){
     return true;
 }
 
-// 🎯 PERMISSÕES
-
-// Pode postar?
-function podePostar(){
-    const user = getUser();
-    return user && (user.tipo === "membro" || user.tipo === "lider" || user.tipo === "admin");
+function temTipo(...tiposPermitidos){
+    const usuario = getUser();
+    return usuario && tiposPermitidos.includes(usuario.tipo);
 }
 
-// Pode comentar?
-function podeComentar(){
-    return true; // todos podem
-}
+function exigirPermissao(...tiposPermitidos){
+    if(!protegerPagina()) return false;
 
-// Pode curtir?
-function podeCurtir(){
+    if(!temTipo(...tiposPermitidos)){
+        alert("Você não tem permissão para acessar esta área.");
+        window.location.href = "../feed.html";
+        return false;
+    }
+
     return true;
 }
 
-// Apenas admin
+function podePostar(){
+    return temTipo("matriz_admin", "pastor", "secretaria", "departamento");
+}
+
+function podeAcessarFinanceiro(){
+    return temTipo("matriz_admin", "financeiro");
+}
+
+function podeAcessarSecretaria(){
+    return temTipo("matriz_admin", "secretaria", "pastor");
+}
+
+function podeAcessarDepartamentos(){
+    return temTipo("matriz_admin", "departamento", "pastor");
+}
+
+function podeGerenciarUsuarios(){
+    return temTipo("matriz_admin");
+}
+
 function isAdmin(){
-    const user = getUser();
-    return user && user.tipo === "admin";
+    return temTipo("matriz_admin");
 }
 
-// Líder ou admin
-function isLider(){
-    const user = getUser();
-    return user && (user.tipo === "lider" || user.tipo === "admin");
+function logoutLocal(){
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("app_context");
+    window.location.href = "../index.html";
 }
-
-// 🔥 AUTO EXECUÇÃO (SÓ BLOQUEIA PÁGINAS INTERNAS)
-(function(){
-
-    const paginaPublica = window.location.pathname.includes("feed.html");
-
-    if(paginaPublica) return;
-
-    protegerPagina();
-
-})();
