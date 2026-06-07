@@ -9,167 +9,153 @@
 <link rel="stylesheet" href="css/components.css">
 
 <style>
-    *{
-        box-sizing: border-box;
-    }
+*{ box-sizing:border-box; }
 
-    body.center{
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #f4f7fb, #e9eef7);
-        font-family: Arial, sans-serif;
-        padding: 20px;
-    }
+body.center{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#f4f7fb,#e9eef7);
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
 
-    .login-box{
-        width: 100%;
-        max-width: 380px;
-        margin: auto;
-        background: white;
-        padding: 24px;
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    }
+.login-box{
+    width:100%;
+    max-width:380px;
+    background:white;
+    padding:24px;
+    border-radius:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
 
-    .login-box h2{
-        text-align: center;
-        margin: 0 0 8px;
-        color: #0d2b6b;
-        font-size: 28px;
-    }
+.login-box h2{
+    text-align:center;
+    margin:0 0 8px;
+    color:#0d2b6b;
+    font-size:28px;
+}
 
-    .subtitulo{
-        text-align: center;
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
+.subtitulo{
+    text-align:center;
+    color:#666;
+    font-size:14px;
+    margin-bottom:20px;
+}
 
-    .login-box input{
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 12px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        outline: none;
-        font-size: 15px;
-    }
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+    font-size:15px;
+}
 
-    .login-box input:focus{
-        border-color: #007bff;
-        box-shadow: 0 0 0 3px rgba(0,123,255,0.12);
-    }
+.login-box input:focus{
+    border-color:#007bff;
+    box-shadow:0 0 0 3px rgba(0,123,255,.12);
+}
 
-    .login-box button{
-        width: 100%;
-        padding: 12px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        transition: 0.2s;
-    }
+.login-box button{
+    width:100%;
+    padding:12px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
 
-    .login-box button:hover{
-        background: #005fd1;
-    }
+.login-box button:hover{ background:#005fd1; }
 
-    .btn-secundario{
-        background: #0d2b6b !important;
-    }
+.btn-secundario{
+    background:#0d2b6b !important;
+}
 
-    .btn-secundario:hover{
-        background: #091c46 !important;
-    }
+.btn-secundario:hover{
+    background:#091c46 !important;
+}
 
-    .publico{
-        text-align: center;
-        margin-top: 8px;
-        color: #555;
-        cursor: pointer;
-        font-size: 14px;
-    }
+.publico{
+    text-align:center;
+    margin-top:8px;
+    color:#555;
+    cursor:pointer;
+    font-size:14px;
+}
 
-    .publico:hover{
-        text-decoration: underline;
-    }
+.publico:hover{ text-decoration:underline; }
 
-    .lang{
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 16px;
-    }
+.lang{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:16px;
+}
 
-    .lang button{
-        width: auto;
-        padding: 8px 12px;
-        margin: 0;
-        font-size: 18px;
-        background: #f1f4f9;
-        color: #222;
-        border: 1px solid #d8dde7;
-    }
+.lang button{
+    width:auto;
+    padding:8px 12px;
+    margin:0;
+    font-size:18px;
+    background:#f1f4f9;
+    color:#222;
+    border:1px solid #d8dde7;
+}
 
-    .lang button:hover{
-        background: #e3e9f4;
-    }
+.demo-info{
+    background:#f8faff;
+    border:1px solid #d9e7ff;
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
+    font-size:13px;
+    color:#35507a;
+    line-height:1.5;
+}
 
-    .demo-info{
-        background: #f8faff;
-        border: 1px solid #d9e7ff;
-        border-radius: 10px;
-        padding: 12px;
-        margin-top: 10px;
-        font-size: 13px;
-        color: #35507a;
-        line-height: 1.5;
-    }
+.status-msg{
+    display:none;
+    margin-top:10px;
+    padding:10px;
+    border-radius:10px;
+    font-size:14px;
+    text-align:center;
+}
 
-    .status-msg{
-        display: none;
-        margin-top: 10px;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 14px;
-        text-align: center;
-    }
+.status-msg.show{ display:block; }
 
-    .status-msg.show{
-        display: block;
-    }
+.status-info{
+    background:#eef5ff;
+    color:#1d4e89;
+    border:1px solid #cfe1ff;
+}
 
-    .status-info{
-        background: #eef5ff;
-        color: #1d4e89;
-        border: 1px solid #cfe1ff;
-    }
+.status-success{
+    background:#ecfff2;
+    color:#1f7a3d;
+    border:1px solid #bfe9cc;
+}
 
-    .status-success{
-        background: #ecfff2;
-        color: #1f7a3d;
-        border: 1px solid #bfe9cc;
-    }
+.status-error{
+    background:#fff1f2;
+    color:#b42318;
+    border:1px solid #fecdd3;
+}
 
-    .status-error{
-        background: #fff1f2;
-        color: #b42318;
-        border: 1px solid #fecdd3;
-    }
-
-    .rodape{
-        text-align: center;
-        margin-top: 14px;
-        color: #777;
-        font-size: 12px;
-    }
+.rodape{
+    text-align:center;
+    margin-top:14px;
+    color:#777;
+    font-size:12px;
+}
 </style>
 </head>
 
@@ -180,10 +166,10 @@
     <p class="subtitulo">Sistema de gestão e comunicação da igreja</p>
 
     <form id="loginForm">
-        <input type="email" id="email" placeholder="Email" autocomplete="username">
-        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password">
+        <input type="email" id="email" placeholder="Email" autocomplete="username" required>
+        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password" required>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" id="btnEntrar">Entrar</button>
         <button type="button" class="btn-secundario" onclick="entrarVisitante()">Ver demonstração</button>
     </form>
 
@@ -205,18 +191,21 @@
     </div>
 
     <div class="rodape">
-        Versão conectada ao backend
+        Versão conectada ao Supabase
     </div>
 </div>
 
-<script>
+<script type="module">
+import { loginRequest } from "./js/modules/auth.js";
+
 function mostrarMensagem(texto, tipo = "info"){
     const status = document.getElementById("status");
+
     status.className = "status-msg show";
 
-    if (tipo === "success") {
+    if(tipo === "success"){
         status.classList.add("status-success");
-    } else if (tipo === "error") {
+    } else if(tipo === "error"){
         status.classList.add("status-error");
     } else {
         status.classList.add("status-info");
@@ -225,86 +214,53 @@ function mostrarMensagem(texto, tipo = "info"){
     status.textContent = texto;
 }
 
-function preencherAdmin(){
-    document.getElementById("email").value = "daniel@ieca.local";
+window.preencherAdmin = function(){
+    document.getElementById("email").value = "moises@ieca.local";
     document.getElementById("senha").value = "123456";
-    mostrarMensagem("Credenciais preenchidas.", "info");
-}
+};
 
-function setLang(lang){
+window.setLang = function(lang){
     localStorage.setItem("lang", lang);
-    mostrarMensagem(lang === "pt" ? "Idioma alterado para Português." : "Language changed to English.", "info");
-}
+    mostrarMensagem("Idioma atualizado.", "success");
+};
 
-async function verificarSessao(){
-    try{
-        const response = await fetch("/api/auth/me", {
-            method: "GET",
-            credentials: "include"
-        });
-
-        if(!response.ok) return;
-
-        const data = await response.json();
-
-        if(data && data.autenticado){
-            window.location.href = "/feed.html";
-        }
-    }catch(error){
-        console.warn("Sessão não encontrada.");
-    }
-}
-
-async function loginReal(email, senha){
-    const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, senha })
-    });
-
-    const data = await response.json();
-
-    if(!response.ok){
-        throw new Error(data.erro || "Falha ao fazer login.");
-    }
-
-    return data;
-}
-
-async function entrarVisitante(){
-    mostrarMensagem("Modo visitante desativado nesta versão de entrega.", "error");
-}
+window.entrarVisitante = function(){
+    mostrarMensagem("Modo visitante desativado. Use um login autorizado.", "error");
+};
 
 document.getElementById("loginForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value.trim();
+    const btnEntrar = document.getElementById("btnEntrar");
 
-    if (!email || !senha) {
-        mostrarMensagem("Preencha email e senha.", "error");
+    if(!email || !senha){
+        mostrarMensagem("Informe email e senha.", "error");
         return;
     }
 
     try{
-        mostrarMensagem("Entrando no sistema...", "info");
+        btnEntrar.disabled = true;
+        btnEntrar.textContent = "Entrando...";
 
-        const resultado = await loginReal(email, senha);
+        mostrarMensagem("Validando acesso...", "info");
 
-        mostrarMensagem("Login realizado com sucesso! Redirecionando...", "success");
+        await loginRequest(email, senha);
 
-        setTimeout(() => {
-            window.location.href = resultado.redirect || "/feed.html";
-        }, 700);
+        mostrarMensagem("Login realizado com sucesso!", "success");
+
+        setTimeout(function(){
+            window.location.href = "feed.html";
+        }, 500);
+
     }catch(error){
-        mostrarMensagem(error.message, "error");
+        mostrarMensagem(error.message || "Erro ao fazer login.", "error");
+    }finally{
+        btnEntrar.disabled = false;
+        btnEntrar.textContent = "Entrar";
     }
 });
-
-verificarSessao();
 </script>
 
 </body>

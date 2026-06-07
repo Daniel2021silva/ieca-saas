@@ -1,72 +1,61 @@
+import { supabase } from "../services/supabase.js";
+import { getUsuarioAtual, logoutRequest } from "./auth.js";
+
 // =============================
-// LISTAR POSTS
+// LISTAR POSTS - SUPABASE
 // =============================
 export async function listarPosts() {
-    const response = await fetch("/api/posts", {
-        method: "GET",
-        credentials: "include"
-    });
+    const { data, error } = await supabase
+        .from("posts")
+        .select(`
+            id,
+            conteudo,
+            created_at,
+            congregacao_id
+        `)
+        .order("created_at", { ascending: false });
 
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.erro || "Erro ao listar posts.");
+    if (error) {
+        throw new Error(error.message || "Erro ao listar posts.");
     }
 
-    return Array.isArray(data) ? data : [];
+    return (data || []).map(post => ({
+        id: post.id,
+        conteudo: post.conteudo,
+        criado_em: post.created_at,
+        congregacao_nome: post.congregacao_id
+            ? `Congregação ${post.congregacao_id}`
+            : "IECA",
+        autor_nome: "IECA"
+    }));
 }
 
 // =============================
-// CRIAR POST
+// CRIAR POST - SUPABASE
 // =============================
 export async function criarPost(conteudo, departamento = null) {
-    const response = await fetch("/api/posts", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include",
-        body: JSON.stringify({
-            titulo: "Publicação",
-            conteudo,
-            departamento
-        })
-    });
+    const usuario = await getUsuarioAtual();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.erro || "Erro ao criar post.");
+    if (!usuario) {
+        throw new Error("Usuário não autenticado.");
     }
 
-    return data.post;
-}
+    const novoPost = {
+        conteudo: conteudo,
+        congregacao_id: usuario.congregacao_id || null
+    };
 
-// =============================
-// USUÁRIO ATUAL
-// =============================
-export async function getUsuarioAtual() {
-    const response = await fetch("/api/auth/me", {
-        method: "GET",
-        credentials: "include"
-    });
+    const { data, error } = await supabase
+        .from("posts")
+        .insert([novoPost])
+        .select()
+        .single();
 
-    if (!response.ok) {
-        return null;
+    if (error) {
+        throw new Error(error.message || "Erro ao criar post.");
     }
 
-    const data = await response.json();
-    return data.usuario || null;
+    return data;
 }
 
-// =============================
-// LOGOUT
-// =============================
-export async function logoutRequest() {
-    await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include"
-    });
-
-    window.location.href = "/index.html";
-}
+export { getUsuarioAtual, logoutRequest };
