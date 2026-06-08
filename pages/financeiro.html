@@ -8,446 +8,224 @@
 <link rel="stylesheet" href="../css/global.css">
 <link rel="stylesheet" href="../css/layout.css">
 <link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    background:#eef2f7;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color:#1f2937;
-}
-
-.page{
-    max-width:1200px;
-    margin:0 auto;
-    padding:20px;
-}
-
-.topo-flex{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-bottom:18px;
-    flex-wrap:wrap;
-}
-
-.topo-titulo h2{
-    margin:0;
-    font-size:28px;
-    color:#0f172a;
-}
-
-.topo-titulo p{
-    margin:6px 0 0;
-    color:#64748b;
-    font-size:14px;
-}
-
-.btn-voltar{
-    background:#1e293b;
-    color:white;
-    padding:10px 14px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    display:none;
-    font-weight:600;
-}
-
-.btn-voltar:hover{
-    opacity:.92;
-}
-
-.badge-matriz{
-    display:inline-block;
-    background:#dbeafe;
-    color:#1d4ed8;
-    padding:5px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-    margin-top:8px;
-}
-
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:12px;
-    margin-bottom:20px;
-}
-
-.card{
-    padding:18px;
-    border-radius:14px;
-    background:white;
-    text-align:center;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
-}
-
-.card h3{
-    margin:0 0 8px;
-    font-size:28px;
-}
-
-.card p{
-    margin:0;
-    color:#64748b;
-    font-weight:600;
-}
-
-.card.entrada h3{
-    color:#15803d;
-}
-
-.card.saida h3{
-    color:#dc2626;
-}
-
-.card.saldo h3{
-    color:#2563eb;
-}
-
-.form,
-.table-box{
-    background:white;
-    padding:18px;
-    border-radius:14px;
-    margin-bottom:20px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
-}
-
-.form h3{
-    margin-top:0;
-    color:#0f172a;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-    gap:12px;
-}
-
-input,select{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #d1d5db;
-    outline:none;
-    font-size:14px;
-    background:#fff;
-}
-
-input:focus,select:focus{
-    border-color:#007bff;
-    box-shadow:0 0 0 3px rgba(0,123,255,0.12);
-}
-
-.form-actions{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:12px;
-}
-
-button{
-    padding:11px 14px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    transition:.2s ease;
-}
-
-button:hover{
-    transform:translateY(-1px);
-}
-
-.primary{
-    background:#007bff;
-    color:white;
-}
-
-.secondary{
-    background:#e5e7eb;
-    color:#111827;
-}
-
-.danger{
-    background:#dc2626;
-    color:white;
-}
-
-.action-btn{
-    padding:8px 10px;
-    border-radius:8px;
-    font-size:13px;
-    margin:2px;
-}
-
-.search-box{
-    margin-bottom:14px;
-}
-
-.search-box input{
-    background:#fff;
-}
-
-.table-wrapper{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
-
-th{
-    background:#007bff;
-    color:white;
-    padding:12px;
-    text-align:left;
-    font-size:14px;
-}
-
-td{
-    padding:12px 10px;
-    border-bottom:1px solid #eee;
-    font-size:14px;
-    vertical-align:middle;
-}
-
-.tipo-entrada{
-    color:green;
-    font-weight:bold;
-    text-transform:capitalize;
-}
-
-.tipo-saida{
-    color:red;
-    font-weight:bold;
-    text-transform:capitalize;
-}
-
-.empty{
-    text-align:center;
-    color:#64748b;
-    padding:20px 10px;
-}
-
-@media(max-width:768px){
-    .page{
-        padding:14px;
-    }
-
-    .topo-titulo h2{
-        font-size:22px;
-    }
-
-    th, td{
-        font-size:13px;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f7;font-family:'Segoe UI',Tahoma,Verdana,sans-serif;color:#1f2937}
+.page{max-width:1200px;margin:0 auto;padding:20px}
+.topo-flex{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.topo-titulo h2{margin:0;font-size:28px;color:#0f172a}
+.topo-titulo p{margin:6px 0 0;color:#64748b;font-size:14px}
+.badge-matriz{display:inline-block;background:#dbeafe;color:#1d4ed8;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;margin-top:8px}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.card,.form,.table-box{background:#fff;padding:18px;border-radius:14px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.card{text-align:center}
+.card h3{margin:0 0 8px;font-size:28px}
+.card p{margin:0;color:#64748b;font-weight:600}
+.card.entrada h3{color:#15803d}
+.card.saida h3{color:#dc2626}
+.card.saldo h3{color:#2563eb}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #d1d5db;outline:none;font-size:14px;background:#fff}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+button{padding:11px 14px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
+.primary{background:#007bff;color:white}
+.secondary{background:#e5e7eb;color:#111827}
+.danger{background:#dc2626;color:white}
+.action-btn{padding:8px 10px;border-radius:8px;font-size:13px;margin:2px}
+.search-box{margin-bottom:14px}
+.table-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{background:#007bff;color:white;padding:12px;text-align:left;font-size:14px}
+td{padding:12px 10px;border-bottom:1px solid #eee;font-size:14px;vertical-align:middle}
+.tipo-entrada{color:green;font-weight:bold;text-transform:capitalize}
+.tipo-saida{color:red;font-weight:bold;text-transform:capitalize}
+.empty{text-align:center;color:#64748b;padding:20px 10px}
+.status-box{display:none;margin-bottom:16px;padding:12px 14px;border-radius:12px;font-size:14px;font-weight:600}
+.status-box.show{display:block}
+.status-info{background:#eef5ff;color:#1d4e89;border:1px solid #cfe1ff}
+.status-success{background:#ecfff2;color:#1f7a3d;border:1px solid #bfe9cc}
+.status-error{background:#fff1f2;color:#b42318;border:1px solid #fecdd3}
+@media(max-width:768px){.page{padding:14px}.topo-titulo h2{font-size:22px}th,td{font-size:13px}}
 </style>
 </head>
 
 <body>
 
-    <button class="menu-toggle" id="menuToggle">☰</button>
+<button class="menu-toggle" id="menuToggle">☰</button>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+    <h2>IECA</h2>
+    <ul>
+        <li onclick="window.location.href='../feed.html'"><i class="fas fa-home"></i> Feed</li>
+        <li onclick="window.location.href='departamento.html'"><i class="fas fa-users"></i> Departamentos</li>
+        <li onclick="window.location.href='secretaria.html'"><i class="fas fa-file-alt"></i> Secretaria</li>
+        <li class="active"><i class="fas fa-coins"></i> Financeiro</li>
+        <li onclick="window.location.href='usuarios.html'"><i class="fas fa-user-cog"></i> Usuários</li>
+    </ul>
+</aside>
+
+<main class="main-content">
 <div class="page">
 
-    <div class="topo-flex">
-        <div class="topo-titulo">
-            <h2 id="titulo">💰 Financeiro</h2>
-            <p id="subtitulo">Gestão de entradas e saídas.</p>
-            <span id="modoSistema" class="badge-matriz" style="display:none;">VISÃO MATRIZ</span>
-        </div>
+<div id="statusBox" class="status-box status-info"></div>
 
-        <button id="btnVoltar" class="btn-voltar" onclick="voltarMatriz()">⬅ Voltar para Matriz</button>
+<div class="topo-flex">
+    <div class="topo-titulo">
+        <h2 id="titulo">💰 Financeiro</h2>
+        <p id="subtitulo">Gestão de entradas e saídas.</p>
+        <span id="modoSistema" class="badge-matriz" style="display:none;">VISÃO MATRIZ</span>
     </div>
 
-    <div class="dashboard">
-        <div class="card entrada">
-            <h3 id="entrada">R$ 0,00</h3>
-            <p>Entradas</p>
-        </div>
-        <div class="card saida">
-            <h3 id="saida">R$ 0,00</h3>
-            <p>Saídas</p>
-        </div>
-        <div class="card saldo">
-            <h3 id="saldo">R$ 0,00</h3>
-            <p>Saldo</p>
-        </div>
-    </div>
-
-    <div class="form">
-        <h3>📋 Novo lançamento</h3>
-
-        <div class="form-grid">
-            <select id="tipo">
-                <option value="entrada">Entrada</option>
-                <option value="saida">Saída</option>
-            </select>
-
-            <select id="categoria">
-                <option value="Dízimo">Dízimo</option>
-                <option value="Oferta">Oferta</option>
-                <option value="Doação">Doação</option>
-                <option value="Campanha">Campanha</option>
-                <option value="Gasolina">Gasolina</option>
-                <option value="Manutenção">Manutenção</option>
-                <option value="Luz">Luz</option>
-                <option value="Água">Água</option>
-                <option value="Internet">Internet</option>
-                <option value="Limpeza">Limpeza</option>
-                <option value="Outro">Outro</option>
-            </select>
-
-            <input type="number" id="valor" placeholder="Valor" min="0" step="0.01">
-            <input type="text" id="descricao" placeholder="Descrição">
-            <input type="date" id="dataLancamento">
-        </div>
-
-        <div class="form-actions">
-            <button class="primary" onclick="salvarLancamento()">Salvar lançamento</button>
-            <button class="secondary" onclick="cancelarEdicao()">Cancelar edição</button>
-        </div>
-    </div>
-
-    <div class="table-box">
-        <div class="search-box">
-            <input type="text" id="busca" placeholder="🔍 Buscar por categoria, descrição, tipo ou congregação..." onkeyup="render()">
-        </div>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Categoria</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                        <th>Data</th>
-                        <th id="thIgreja" style="display:none;">Igreja</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="lista"></tbody>
-            </table>
-        </div>
-    </div>
-
+    <button class="secondary" onclick="window.location.href='../feed.html'">⬅ Voltar ao Feed</button>
 </div>
 
-<script src="../js/services/storage.js"></script>
+<div class="dashboard">
+    <div class="card entrada"><h3 id="entrada">R$ 0,00</h3><p>Entradas</p></div>
+    <div class="card saida"><h3 id="saida">R$ 0,00</h3><p>Saídas</p></div>
+    <div class="card saldo"><h3 id="saldo">R$ 0,00</h3><p>Saldo</p></div>
+</div>
 
-<script>
-function storageGet(key, fallback){
-    try{
-        const value = storage.get(key);
-        if(value === undefined || value === null) return fallback;
-        return value;
-    }catch(e){
-        return fallback;
-    }
-}
+<div class="form">
+    <h3>📋 Novo lançamento</h3>
+
+    <div class="form-grid">
+        <select id="tipo">
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+        </select>
+
+        <select id="categoria">
+            <option value="Dízimo">Dízimo</option>
+            <option value="Oferta">Oferta</option>
+            <option value="Doação">Doação</option>
+            <option value="Campanha">Campanha</option>
+            <option value="Gasolina">Gasolina</option>
+            <option value="Manutenção">Manutenção</option>
+            <option value="Luz">Luz</option>
+            <option value="Água">Água</option>
+            <option value="Internet">Internet</option>
+            <option value="Limpeza">Limpeza</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <input type="number" id="valor" placeholder="Valor" min="0" step="0.01">
+        <input type="text" id="descricao" placeholder="Descrição">
+        <input type="date" id="dataLancamento">
+    </div>
+
+    <div class="form-actions">
+        <button class="primary" onclick="salvarLancamento()">Salvar lançamento</button>
+        <button class="secondary" onclick="cancelarEdicao()">Cancelar edição</button>
+    </div>
+</div>
+
+<div class="table-box">
+    <div class="search-box">
+        <input type="text" id="busca" placeholder="🔍 Buscar por categoria, descrição, tipo ou congregação..." onkeyup="render()">
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Valor</th>
+                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th id="thIgreja" style="display:none;">Igreja</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="lista"></tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+</main>
+</div>
+
+<script type="module">
+import { supabase } from "../js/services/supabase.js";
+import { getUsuarioAtual } from "../js/modules/auth.js";
 
 let usuarioAtual = null;
-let context = storageGet("app_context", null);
-
-if(!context || typeof context !== "object" || Array.isArray(context)){
-    context = {};
-}
-
-let dados = storageGet("financeiro", []);
-if(!Array.isArray(dados)){
-    dados = [];
-}
-
+let dados = [];
 let editId = null;
 
+function mostrarMensagem(texto, tipo = "info"){
+    const box = document.getElementById("statusBox");
+    box.className = "status-box show";
+    if(tipo === "success") box.classList.add("status-success");
+    else if(tipo === "error") box.classList.add("status-error");
+    else box.classList.add("status-info");
+    box.textContent = texto;
+}
+
 function ehAdminMatriz(){
-    return context.usuario_tipo === "admin";
+    return usuarioAtual && usuarioAtual.tipo === "matriz_admin";
 }
 
 function podeAcessarFinanceiro(){
-    return ["admin", "pastor", "financeiro"].includes(context.usuario_tipo);
+    return usuarioAtual && ["matriz_admin", "pastor", "financeiro"].includes(usuarioAtual.tipo);
 }
 
-function getIgrejaVisualizadaId(){
-    return ehAdminMatriz()
-        ? (context.igreja_visualizada_id || "matriz")
-        : context.igreja_origem_id;
+function getIgrejaId(){
+    return usuarioAtual?.congregacao_id || null;
 }
 
-function getIgrejaVisualizadaNome(){
-    return ehAdminMatriz()
-        ? (context.igreja_visualizada_nome || "Matriz")
-        : context.igreja_origem_nome;
+function getIgrejaNome(){
+    return usuarioAtual?.congregacao_nome || "Matriz";
+}
+
+function escaparHTML(texto){
+    return String(texto || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function normalizarTexto(valor){
+    return String(valor || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .toLowerCase()
+        .trim();
+}
+
+function formatarMoeda(valor){
+    return Number(valor || 0).toLocaleString("pt-BR", {
+        style:"currency",
+        currency:"BRL"
+    });
+}
+
+function formatarData(data){
+    if(!data) return "-";
+    const d = new Date(data + "T00:00:00");
+    if(isNaN(d.getTime())) return String(data);
+    return d.toLocaleDateString("pt-BR");
 }
 
 async function validarAcessoFinanceiro(){
-    try{
-        const response = await fetch("http://127.0.0.1:5000/api/auth/me", {
-            method: "GET",
-            credentials: "include"
-        });
+    usuarioAtual = await getUsuarioAtual();
 
-        if(!response.ok){
-            alert("Faça login para acessar o financeiro.");
-            window.location.href = "../index.html";
-            return false;
-        }
-
-        const usuario = await response.json();
-        usuarioAtual = usuario;
-        storage.set("usuario", usuario);
-
-        if(!["admin", "pastor", "financeiro"].includes(usuario.tipo)){
-            alert("Você não tem permissão para acessar o financeiro.");
-            window.location.href = "../feed.html";
-            return false;
-        }
-
-        context.usuario_tipo = usuario.tipo;
-        context.igreja_origem_id = usuario.congregacao_id || "matriz";
-        context.igreja_origem_nome = usuario.congregacao_id ? `Congregação ${usuario.congregacao_id}` : "Matriz";
-
-        if(!context.igreja_visualizada_id){
-            context.igreja_visualizada_id = context.igreja_origem_id;
-        }
-
-        if(!context.igreja_visualizada_nome){
-            context.igreja_visualizada_nome = context.igreja_origem_nome;
-        }
-
-        storage.set("app_context", context);
-        return true;
-
-    }catch(error){
-        alert("Não foi possível validar o acesso ao financeiro.");
+    if(!usuarioAtual){
+        alert("Faça login para acessar o financeiro.");
         window.location.href = "../index.html";
         return false;
     }
-}
 
-function garantirPermissaoContexto(){
     if(!podeAcessarFinanceiro()){
         alert("Você não tem permissão para acessar o financeiro.");
-        window.location.href = "../feed.html";
-        return false;
-    }
-
-    if(!ehAdminMatriz() && !context.igreja_origem_id){
-        alert("Igreja da sua conta não identificada.");
         window.location.href = "../feed.html";
         return false;
     }
@@ -455,68 +233,43 @@ function garantirPermissaoContexto(){
     return true;
 }
 
-function gerarId(){
-    return Date.now().toString() + Math.floor(Math.random() * 1000).toString();
-}
-
-function escaparHTML(texto){
-    return String(texto || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function normalizarTexto(valor){
-    return String(valor || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .trim();
-}
-
-function formatarMoeda(valor){
-    return Number(valor || 0).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
-}
-
-function formatarData(data){
-    if(!data) return "-";
-    const d = new Date(data);
-    if(isNaN(d.getTime())) return String(data);
-    return d.toLocaleDateString("pt-BR");
-}
-
 function atualizarCabecalho(){
-    document.getElementById("btnVoltar").style.display = ehAdminMatriz() ? "none" : "inline-block";
     document.getElementById("modoSistema").style.display = ehAdminMatriz() ? "inline-block" : "none";
     document.getElementById("thIgreja").style.display = ehAdminMatriz() ? "table-cell" : "none";
 
-    const nomeIgreja = getIgrejaVisualizadaNome();
+    const nomeIgreja = getIgrejaNome();
 
     document.getElementById("titulo").innerText = "💰 Financeiro - " + nomeIgreja;
     document.getElementById("subtitulo").innerText = ehAdminMatriz()
-        ? "Visualizando financeiro de " + nomeIgreja + "."
+        ? "Visualizando financeiro geral da matriz."
         : "Controle financeiro da congregação " + nomeIgreja + ".";
 }
 
-function getLancamentosVisiveis(){
-    const igrejaId = getIgrejaVisualizadaId();
-    return dados.filter(item => item.congregacao_id === igrejaId);
+async function carregarLancamentos(){
+    let query = supabase
+        .from("financeiro")
+        .select("*")
+        .order("data", { ascending:false });
+
+    if(!ehAdminMatriz()){
+        query = query.eq("congregacao_id", getIgrejaId());
+    }
+
+    const { data, error } = await query;
+
+    if(error){
+        throw new Error(error.message || "Erro ao carregar financeiro.");
+    }
+
+    dados = data || [];
 }
 
 function getFiltradoBusca(){
     const filtro = normalizarTexto(document.getElementById("busca").value);
-    let lista = getLancamentosVisiveis();
 
-    if(!filtro){
-        return lista;
-    }
+    if(!filtro) return [...dados];
 
-    return lista.filter(item => {
+    return dados.filter(item => {
         const alvo = [
             item.tipo,
             item.categoria,
@@ -529,70 +282,56 @@ function getFiltradoBusca(){
     });
 }
 
-function salvarLancamento(){
+window.salvarLancamento = async function(){
     const tipo = document.getElementById("tipo").value;
     const categoria = document.getElementById("categoria").value;
     const valor = parseFloat(document.getElementById("valor").value);
     const descricao = document.getElementById("descricao").value.trim();
-    const dataLancamento = document.getElementById("dataLancamento").value || new Date().toISOString().slice(0, 10);
+    const dataLancamento = document.getElementById("dataLancamento").value || new Date().toISOString().slice(0,10);
 
     if(isNaN(valor) || valor <= 0){
-        alert("Digite um valor válido.");
+        mostrarMensagem("Digite um valor válido.", "error");
         return;
     }
 
-    let congregacaoIdRegistro = getIgrejaVisualizadaId();
-    let congregacaoNomeRegistro = getIgrejaVisualizadaNome();
-
-    if(editId){
-        const atual = dados.find(item => item.id === editId);
-        if(!atual) return;
-
-        const igrejaPermitida = ehAdminMatriz() ? getIgrejaVisualizadaId() : context.igreja_origem_id;
-
-        if(atual.congregacao_id !== igrejaPermitida){
-            alert("Você não pode editar lançamentos desta igreja.");
-            return;
-        }
-
-        congregacaoIdRegistro = atual.congregacao_id;
-        congregacaoNomeRegistro = atual.congregacao_nome;
-    }
-
-    const novo = {
-        id: editId || gerarId(),
+    const payload = {
         tipo,
         categoria,
         valor,
         descricao,
         data: dataLancamento,
-        congregacao_id: congregacaoIdRegistro,
-        congregacao_nome: congregacaoNomeRegistro,
-        atualizado_em: new Date().toISOString()
+        congregacao_id: getIgrejaId(),
+        congregacao_nome: getIgrejaNome(),
+        usuario_id: usuarioAtual.id
     };
 
+    let result;
+
     if(editId){
-        dados = dados.map(item => item.id === editId ? { ...item, ...novo } : item);
+        result = await supabase
+            .from("financeiro")
+            .update(payload)
+            .eq("id", editId);
     }else{
-        novo.criado_em = new Date().toISOString();
-        dados.push(novo);
+        result = await supabase
+            .from("financeiro")
+            .insert([payload]);
     }
 
-    storage.set("financeiro", dados);
-    cancelarEdicao();
-    render();
-}
-
-function editar(id){
-    const item = dados.find(d => d.id === id);
-    if(!item) return;
-
-    const igrejaPermitida = ehAdminMatriz() ? getIgrejaVisualizadaId() : context.igreja_origem_id;
-
-    if(item.congregacao_id !== igrejaPermitida){
-        alert("Você não pode editar lançamentos desta igreja.");
+    if(result.error){
+        mostrarMensagem(result.error.message, "error");
         return;
     }
+
+    cancelarEdicao();
+    await carregarLancamentos();
+    render();
+    mostrarMensagem("Lançamento salvo com sucesso.", "success");
+};
+
+window.editar = function(id){
+    const item = dados.find(d => String(d.id) === String(id));
+    if(!item) return;
 
     editId = id;
 
@@ -602,58 +341,65 @@ function editar(id){
     document.getElementById("descricao").value = item.descricao || "";
     document.getElementById("dataLancamento").value = item.data ? String(item.data).slice(0,10) : "";
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
+    window.scrollTo({ top:0, behavior:"smooth" });
+};
 
-function excluir(id){
-    const item = dados.find(d => d.id === id);
+window.excluir = async function(id){
+    const item = dados.find(d => String(d.id) === String(id));
     if(!item) return;
-
-    const igrejaPermitida = ehAdminMatriz() ? getIgrejaVisualizadaId() : context.igreja_origem_id;
-
-    if(item.congregacao_id !== igrejaPermitida){
-        alert("Você não pode excluir lançamentos desta igreja.");
-        return;
-    }
 
     const confirmar = confirm(`Excluir este lançamento de ${formatarMoeda(item.valor)}?`);
     if(!confirmar) return;
 
-    dados = dados.filter(d => d.id !== id);
-    storage.set("financeiro", dados);
+    const { error } = await supabase
+        .from("financeiro")
+        .delete()
+        .eq("id", id);
 
-    if(editId === id){
+    if(error){
+        mostrarMensagem(error.message, "error");
+        return;
+    }
+
+    if(String(editId) === String(id)){
         cancelarEdicao();
     }
 
+    await carregarLancamentos();
     render();
-}
+    mostrarMensagem("Lançamento excluído com sucesso.", "success");
+};
 
-function render(){
+window.cancelarEdicao = function(){
+    editId = null;
+    document.getElementById("tipo").value = "entrada";
+    document.getElementById("categoria").value = "Dízimo";
+    document.getElementById("valor").value = "";
+    document.getElementById("descricao").value = "";
+    document.getElementById("dataLancamento").value = "";
+};
+
+window.render = function(){
     const lista = document.getElementById("lista");
     lista.innerHTML = "";
 
-    const registros = getFiltradoBusca()
-        .sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+    const registros = getFiltradoBusca();
 
     let entrada = 0;
     let saida = 0;
 
     registros.forEach(d => {
-        if(d.tipo === "entrada"){
-            entrada += Number(d.valor || 0);
-        }else{
-            saida += Number(d.valor || 0);
-        }
+        if(d.tipo === "entrada") entrada += Number(d.valor || 0);
+        else saida += Number(d.valor || 0);
 
         lista.innerHTML += `
             <tr>
-                <td class="${d.tipo === 'entrada' ? 'tipo-entrada' : 'tipo-saida'}">${escaparHTML(d.tipo)}</td>
+                <td class="${d.tipo === "entrada" ? "tipo-entrada" : "tipo-saida"}">${escaparHTML(d.tipo)}</td>
                 <td>${escaparHTML(d.categoria)}</td>
                 <td>${formatarMoeda(d.valor)}</td>
                 <td>${escaparHTML(d.descricao || "-")}</td>
                 <td>${formatarData(d.data)}</td>
-                ${ehAdminMatriz() ? `<td>${escaparHTML(d.congregacao_nome || "-")}</td>` : ""}
+                ${ehAdminMatriz() ? `<td>${escaparHTML(d.congregacao_nome || "Matriz")}</td>` : ""}
                 <td>
                     <button class="action-btn primary" onclick="editar('${d.id}')">✏️ Editar</button>
                     <button class="action-btn danger" onclick="excluir('${d.id}')">🗑 Excluir</button>
@@ -675,34 +421,36 @@ function render(){
     document.getElementById("entrada").innerText = formatarMoeda(entrada);
     document.getElementById("saida").innerText = formatarMoeda(saida);
     document.getElementById("saldo").innerText = formatarMoeda(entrada - saida);
-}
+};
 
-function voltarMatriz(){
-    storage.set("app_context", {
-        ...context,
-        igreja_visualizada_id: "matriz",
-        igreja_visualizada_nome: "Matriz"
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+if(menuToggle && sidebar && sidebarOverlay){
+    menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        sidebarOverlay.classList.toggle("show");
     });
-    window.location.href = "../feed.html";
-}
 
-function cancelarEdicao(){
-    editId = null;
-    document.getElementById("tipo").value = "entrada";
-    document.getElementById("categoria").value = "Dízimo";
-    document.getElementById("valor").value = "";
-    document.getElementById("descricao").value = "";
-    document.getElementById("dataLancamento").value = "";
+    sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("show");
+    });
 }
 
 async function iniciarFinanceiro(){
     const acessoLiberado = await validarAcessoFinanceiro();
     if(!acessoLiberado) return;
 
-    if(!garantirPermissaoContexto()) return;
-
     atualizarCabecalho();
-    render();
+
+    try{
+        await carregarLancamentos();
+        render();
+    }catch(error){
+        mostrarMensagem(error.message || "Erro ao carregar financeiro.", "error");
+    }
 }
 
 iniciarFinanceiro();

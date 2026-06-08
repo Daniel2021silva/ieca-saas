@@ -11,14 +11,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
     background:#eef2f7;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
     color:#1f2937;
 }
 
@@ -31,12 +29,6 @@ body{
     margin-bottom:20px;
 }
 
-.topo-left{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
 .topo h2{
     margin:0;
     font-size:28px;
@@ -44,40 +36,25 @@ body{
 }
 
 .topo p{
-    margin:0;
+    margin:6px 0 0;
     color:#64748b;
     font-size:14px;
 }
 
-#btnVoltar{
-    background:#1e293b;
-    color:#fff;
-    border:none;
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    display:none;
-}
-
-#btnVoltar:hover{
-    opacity:.92;
-}
-
-.badge-matriz{
+.badge{
     display:inline-block;
     background:#dbeafe;
     color:#1d4ed8;
-    padding:5px 10px;
+    padding:6px 10px;
     border-radius:999px;
     font-size:12px;
     font-weight:700;
-    width:max-content;
+    margin-top:8px;
 }
 
-.container.grid{
+.grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:16px;
 }
 
@@ -85,20 +62,20 @@ body{
     background:#fff;
     border-radius:16px;
     padding:20px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
     cursor:pointer;
-    transition:0.2s ease;
+    transition:.2s ease;
     border:1px solid #e5e7eb;
 }
 
 .departamento-card:hover{
     transform:translateY(-3px);
-    box-shadow:0 10px 24px rgba(0,0,0,0.10);
+    box-shadow:0 10px 24px rgba(0,0,0,.10);
     border-color:#bfdbfe;
 }
 
 .departamento-icone{
-    font-size:32px;
+    font-size:34px;
     margin-bottom:12px;
 }
 
@@ -120,143 +97,151 @@ body{
     border-radius:14px;
     padding:16px;
     margin-bottom:20px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
 }
 
-.info-box strong{
-    color:#0f172a;
+.btn-voltar{
+    background:#1e293b;
+    color:white;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
 }
 
 @media(max-width:768px){
-    .topo h2{
-        font-size:22px;
-    }
-
-    .departamento-card{
-        padding:16px;
-    }
+    .topo h2{font-size:22px}
 }
 </style>
 </head>
 
 <body>
 
-    <button class="menu-toggle" id="menuToggle">☰</button>
+<button class="menu-toggle" id="menuToggle">☰</button>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="app">
 
-    <aside class="sidebar">
-        <h2>IECA</h2>
+<aside class="sidebar" id="sidebar">
+    <h2>IECA</h2>
 
-        <ul>
-            <li onclick="window.location.href='../feed.html'">
-                <i class="fas fa-home"></i> Feed
-            </li>
+    <ul>
+        <li onclick="window.location.href='../feed.html'">
+            <i class="fas fa-home"></i> Feed
+        </li>
 
-            <li class="active">
-                <i class="fas fa-users"></i> Departamentos
-            </li>
+        <li class="active">
+            <i class="fas fa-users"></i> Departamentos
+        </li>
 
-            <li onclick="window.location.href='secretaria.html'">
-                <i class="fas fa-file-alt"></i> Secretaria
-            </li>
+        <li onclick="window.location.href='secretaria.html'">
+            <i class="fas fa-file-alt"></i> Secretaria
+        </li>
 
-            <li onclick="window.location.href='financeiro.html'">
-                <i class="fas fa-coins"></i> Financeiro
-            </li>
-        </ul>
-    </aside>
+        <li onclick="window.location.href='financeiro.html'">
+            <i class="fas fa-coins"></i> Financeiro
+        </li>
 
-    <main class="main-content">
+        <li onclick="window.location.href='usuarios.html'">
+            <i class="fas fa-user-cog"></i> Usuários
+        </li>
+    </ul>
+</aside>
 
-        <header class="topo">
-            <div class="topo-left">
-                <h2 id="titulo">👥 Departamentos</h2>
-                <p id="subtitulo"></p>
-                <span id="modoSistema" class="badge-matriz" style="display:none;">VISÃO MATRIZ</span>
-            </div>
+<main class="main-content">
 
-            <button id="btnVoltar" type="button">⬅️ Voltar para Matriz</button>
-        </header>
+<header class="topo">
+    <div>
+        <h2 id="titulo">👥 Departamentos</h2>
+        <p id="subtitulo">Selecione um departamento para acessar.</p>
+        <span id="badgeUsuario" class="badge"></span>
+    </div>
 
-        <div class="container">
+    <button class="btn-voltar" onclick="window.location.href='../feed.html'">
+        ⬅ Voltar ao Feed
+    </button>
+</header>
 
-            <div class="info-box">
-                <p id="infoContexto"></p>
-            </div>
+<div class="container">
 
-            <div class="container grid">
+    <div class="info-box">
+        <p id="infoContexto">
+            Carregando informações do usuário...
+        </p>
+    </div>
 
-                <div class="departamento-card" data-dep="missoes">
-                    <div class="departamento-icone">🌍</div>
-                    <h3 class="departamento-titulo">Missões</h3>
-                    <p class="departamento-desc">Avisos, agendas, cultos missionários e publicações do departamento.</p>
-                </div>
+    <div class="grid">
 
-                <div class="departamento-card" data-dep="mulheres">
-                    <div class="departamento-icone">👩</div>
-                    <h3 class="departamento-titulo">Mulheres</h3>
-                    <p class="departamento-desc">Comunicados, reuniões, eventos e atividades do círculo de oração e ações femininas.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="homens">
-                    <div class="departamento-icone">👨</div>
-                    <h3 class="departamento-titulo">Homens</h3>
-                    <p class="departamento-desc">Organização de encontros, campanhas, estudos e avisos do departamento masculino.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="jovens">
-                    <div class="departamento-icone">⚡</div>
-                    <h3 class="departamento-titulo">Jovens</h3>
-                    <p class="departamento-desc">Eventos, ensaios, retiros, reuniões e comunicados voltados para a juventude.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="infantil">
-                    <div class="departamento-icone">🧒</div>
-                    <h3 class="departamento-titulo">Infantil</h3>
-                    <p class="departamento-desc">Programações, escalas, materiais e comunicados do ministério infantil.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="diaconato">
-                    <div class="departamento-icone">🤝</div>
-                    <h3 class="departamento-titulo">Diaconato</h3>
-                    <p class="departamento-desc">Escalas de apoio, organização de cultos, recepção e orientações do diaconato.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="coral">
-                    <div class="departamento-icone">🎵</div>
-                    <h3 class="departamento-titulo">Coral</h3>
-                    <p class="departamento-desc">Ensaios, repertórios, apresentações e avisos do ministério de louvor coral.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="intercessao">
-                    <div class="departamento-icone">🙏</div>
-                    <h3 class="departamento-titulo">Intercessão</h3>
-                    <p class="departamento-desc">Pedidos de oração, escalas, encontros e direcionamentos do grupo de intercessão.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="social">
-                    <div class="departamento-icone">❤️</div>
-                    <h3 class="departamento-titulo">Social</h3>
-                    <p class="departamento-desc">Campanhas solidárias, visitas, ações beneficentes e projetos de assistência.</p>
-                </div>
-
-                <div class="departamento-card" data-dep="estudos">
-                    <div class="departamento-icone">📖</div>
-                    <h3 class="departamento-titulo">Estudos</h3>
-                    <p class="departamento-desc">Materiais de estudo, cronogramas, aulas, devocionais e conteúdos bíblicos.</p>
-                </div>
-
-            </div>
+        <div class="departamento-card" data-dep="missoes">
+            <div class="departamento-icone">🌍</div>
+            <h3 class="departamento-titulo">Missões</h3>
+            <p class="departamento-desc">Avisos, agendas, cultos missionários e publicações.</p>
         </div>
 
-    </main>
+        <div class="departamento-card" data-dep="mulheres">
+            <div class="departamento-icone">👩</div>
+            <h3 class="departamento-titulo">Mulheres</h3>
+            <p class="departamento-desc">Reuniões, eventos, círculo de oração e comunicados.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="homens">
+            <div class="departamento-icone">👨</div>
+            <h3 class="departamento-titulo">Homens</h3>
+            <p class="departamento-desc">Encontros, campanhas, estudos e avisos.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="jovens">
+            <div class="departamento-icone">⚡</div>
+            <h3 class="departamento-titulo">Jovens</h3>
+            <p class="departamento-desc">Eventos, ensaios, retiros e reuniões da juventude.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="infantil">
+            <div class="departamento-icone">🧒</div>
+            <h3 class="departamento-titulo">Infantil</h3>
+            <p class="departamento-desc">Programações, escalas e materiais infantis.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="diaconato">
+            <div class="departamento-icone">🤝</div>
+            <h3 class="departamento-titulo">Diaconato</h3>
+            <p class="departamento-desc">Escalas de apoio, recepção e organização dos cultos.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="coral">
+            <div class="departamento-icone">🎵</div>
+            <h3 class="departamento-titulo">Coral</h3>
+            <p class="departamento-desc">Ensaios, repertórios e apresentações.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="intercessao">
+            <div class="departamento-icone">🙏</div>
+            <h3 class="departamento-titulo">Intercessão</h3>
+            <p class="departamento-desc">Pedidos de oração, escalas e encontros.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="social">
+            <div class="departamento-icone">❤️</div>
+            <h3 class="departamento-titulo">Social</h3>
+            <p class="departamento-desc">Campanhas solidárias, visitas e assistência.</p>
+        </div>
+
+        <div class="departamento-card" data-dep="estudos">
+            <div class="departamento-icone">📖</div>
+            <h3 class="departamento-titulo">Estudos</h3>
+            <p class="departamento-desc">Materiais, aulas, devocionais e conteúdos bíblicos.</p>
+        </div>
+
+    </div>
 </div>
 
-<script src="../js/services/storage.js"></script>
+</main>
+</div>
 
-<script>
+<script type="module">
+import { getUsuarioAtual } from "../js/modules/auth.js";
+
 const nomesDepartamentos = {
     missoes: "Missões",
     mulheres: "Mulheres",
@@ -270,151 +255,88 @@ const nomesDepartamentos = {
     estudos: "Estudos"
 };
 
-let usuarioAtual = storage.get("usuario", null);
-let context = storage.get("app_context", null);
+let usuarioAtual = null;
 
-if(!context || typeof context !== "object" || Array.isArray(context)){
-    context = {
-        tipo: "matriz",
-        nome: "Matriz",
-        igreja: "IECA",
-        congregacao: "Matriz",
-        congregacao_id: 1,
-        departamento: null,
-        departamento_nome: null
-    };
-    storage.set("app_context", context);
-}
+async function validarAcesso(){
+    usuarioAtual = await getUsuarioAtual();
 
-function normalizarContextoComUsuario(usuario){
-    if(!usuario) return;
-
-    if(!context.tipo){
-        if(usuario.tipo === "admin" || usuario.tipo === "pastor"){
-            context.tipo = "matriz";
-        } else {
-            context.tipo = "congregacao";
-        }
-    }
-
-    if(!context.nome){
-        context.nome = usuario.congregacao || "Matriz";
-    }
-
-    if(!context.igreja){
-        context.igreja = usuario.igreja || "IECA";
-    }
-
-    if(!context.congregacao){
-        context.congregacao = usuario.congregacao || "Matriz";
-    }
-
-    if(context.congregacao_id === undefined || context.congregacao_id === null){
-        context.congregacao_id = usuario.congregacao_id || 1;
-    }
-
-    storage.set("app_context", context);
-}
-
-function usuarioTemAcesso(usuario){
-    if(!usuario || !usuario.tipo) return false;
-    return ["admin", "pastor", "lider"].includes(usuario.tipo);
-}
-
-async function validarAcessoDepartamentos(){
-    usuarioAtual = storage.get("usuario", null);
-
-    if(usuarioTemAcesso(usuarioAtual)){
-        normalizarContextoComUsuario(usuarioAtual);
-        return true;
-    }
-
-    if(usuarioAtual && usuarioAtual.tipo === "visitante"){
-        alert("A visualização dos departamentos exige acesso administrativo nesta demonstração.");
+    if(!usuarioAtual){
         window.location.href = "../index.html";
         return false;
     }
 
-    alert("Faça login com o acesso demo administrativo para entrar nos departamentos.");
-    window.location.href = "../index.html";
-    return false;
-}
+    const permitidos = [
+        "matriz_admin",
+        "pastor",
+        "departamento"
+    ];
 
-function isMatriz(){
-    return context.tipo === "matriz";
-}
+    if(!permitidos.includes(usuarioAtual.tipo)){
+        alert("Você não tem permissão para acessar Departamentos.");
+        window.location.href = "../feed.html";
+        return false;
+    }
 
-function escaparHTML(texto){
-    return String(texto || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return true;
 }
 
 function atualizarTela(){
-    document.getElementById("btnVoltar").style.display =
-        isMatriz() ? "none" : "inline-block";
+    document.getElementById("badgeUsuario").textContent =
+        `${usuarioAtual.nome} • ${usuarioAtual.tipo}`;
 
-    document.getElementById("modoSistema").style.display =
-        isMatriz() ? "inline-block" : "none";
+    document.getElementById("infoContexto").innerHTML =
+        `<strong>Modo atual:</strong> ${usuarioAtual.tipo === "matriz_admin" ? "Matriz/Administração geral" : "Área de departamentos"}.`;
 
-    document.getElementById("titulo").innerText =
-        "👥 Departamentos - " + (context.nome || "IECA");
-
-    document.getElementById("subtitulo").innerText = isMatriz()
-        ? "Selecione um departamento para acessar o feed geral do departamento."
-        : "Selecione um departamento da congregação " + (context.nome || "") + ".";
-
-    document.getElementById("infoContexto").innerHTML = isMatriz()
-        ? "<strong>Modo atual:</strong> Matriz visualizando departamentos de forma geral."
-        : "<strong>Modo atual:</strong> Congregação <strong>" + escaparHTML(context.nome || "") + "</strong> visualizando somente seus próprios departamentos.";
+    document.getElementById("subtitulo").textContent =
+        "Selecione um departamento para publicar ou visualizar conteúdos.";
 }
 
 function abrirDepartamento(dep){
-    const novoContexto = {
-        ...context,
+    const contexto = {
+        tipo: usuarioAtual.tipo === "matriz_admin" ? "matriz" : "departamento",
+        nome: usuarioAtual.nome,
+        usuario_tipo: usuarioAtual.tipo,
+        congregacao_id: usuarioAtual.congregacao_id || null,
         departamento: dep,
         departamento_nome: nomesDepartamentos[dep] || dep
     };
 
-    storage.set("app_context", novoContexto);
+    localStorage.setItem("app_context", JSON.stringify(contexto));
+
     window.location.href = "../feed.html";
 }
-
-function voltarMatriz(){
-    const novo = {
-        ...context,
-        tipo: "matriz",
-        nome: "Matriz",
-        congregacao: "Matriz",
-        congregacao_id: 1,
-        departamento: null,
-        departamento_nome: null
-    };
-
-    storage.set("app_context", novo);
-    window.location.href = "../feed.html";
-}
-
-document.getElementById("btnVoltar").addEventListener("click", voltarMatriz);
 
 document.querySelectorAll(".departamento-card").forEach(card => {
-    card.addEventListener("click", function(){
-        const dep = this.dataset.dep;
-        if(!dep) return;
-        abrirDepartamento(dep);
+    card.addEventListener("click", () => {
+        const dep = card.dataset.dep;
+        if(dep) abrirDepartamento(dep);
     });
 });
 
-async function iniciarDepartamentos(){
-    const acessoLiberado = await validarAcessoDepartamentos();
-    if(!acessoLiberado) return;
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+if(menuToggle && sidebar && sidebarOverlay){
+    menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        sidebarOverlay.classList.toggle("show");
+    });
+
+    sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("show");
+    });
+}
+
+async function iniciar(){
+    const liberado = await validarAcesso();
+    if(!liberado) return;
+
     atualizarTela();
 }
 
-iniciarDepartamentos();
+iniciar();
 </script>
 
 </body>
