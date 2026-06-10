@@ -11,9 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -37,58 +35,10 @@ body{
     color:#0f172a;
 }
 
-.topo-left{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-}
-
 .topo-subtitulo{
     color:#64748b;
     font-size:14px;
     margin:0;
-}
-
-.topo-badges{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-top:4px;
-}
-
-.badge-info{
-    display:inline-block;
-    background:#dbeafe;
-    color:#1d4ed8;
-    padding:5px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-}
-
-.badge-visitante{
-    display:inline-block;
-    background:#f3f4f6;
-    color:#374151;
-    padding:5px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-}
-
-#btnLogout{
-    background:#dc2626;
-    color:#fff;
-    border:none;
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    display:none;
-}
-
-#btnLogout:hover{
-    opacity:.92;
 }
 
 .container{
@@ -97,7 +47,7 @@ body{
 }
 
 .live-box{
-    display:flex;
+    display:none;
     align-items:center;
     justify-content:space-between;
     gap:10px;
@@ -105,7 +55,7 @@ body{
     background:#fff;
     padding:14px 16px;
     border-radius:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
     flex-wrap:wrap;
 }
 
@@ -127,7 +77,6 @@ body{
 .message-container{
     margin-top:10px;
     margin-bottom:20px;
-    position:relative;
 }
 
 .message-box{
@@ -137,7 +86,7 @@ body{
     background:#1e1e2f;
     border-radius:50px;
     padding:8px 10px;
-    box-shadow:0 6px 16px rgba(0,0,0,0.15);
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
 }
 
 .message-box input{
@@ -154,17 +103,57 @@ body{
     color:#cbd5e1;
 }
 
+.btn-plus,
 .btn-send{
-    width:42px;
-    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+    min-width:44px;
     border-radius:50%;
     border:none;
     cursor:pointer;
     font-size:18px;
-    font-weight:bold;
-    flex-shrink:0;
-    background:#16a34a;
     color:white;
+    flex-shrink:0;
+}
+
+.btn-plus{
+    background:#2563eb;
+}
+
+.btn-send{
+    background:#16a34a;
+}
+
+.file-preview{
+    margin-top:12px;
+    background:#fff;
+    padding:12px 14px;
+    border-radius:12px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.file-preview span{
+    color:#334155;
+    font-size:14px;
+    word-break:break-word;
+}
+
+.file-preview button{
+    background:#ef4444;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
 }
 
 .post{
@@ -172,7 +161,7 @@ body{
     padding:16px;
     border-radius:14px;
     margin-bottom:14px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
 }
 
 .post-header{
@@ -200,143 +189,224 @@ body{
     font-weight:700;
 }
 
+.post-departamento{
+    display:inline-block;
+    background:#ede9fe;
+    color:#6d28d9;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
 .post-data{
     color:#64748b;
     font-size:12px;
 }
 
-.post-autor{
-    color:#334155;
-    font-size:13px;
-    font-weight:600;
-}
-
 .post p{
-    margin:0;
+    margin:0 0 12px;
     white-space:pre-wrap;
     word-break:break-word;
     line-height:1.5;
 }
 
-.empty-feed,
-.box-info{
+.post-media img,
+.post-media video{
+    width:100%;
+    border-radius:12px;
+    margin-top:8px;
+    max-height:430px;
+    object-fit:cover;
+    background:#e5e7eb;
+}
+
+.post-media a{
+    display:inline-block;
+    margin-top:8px;
+    color:#2563eb;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.empty-feed{
     background:#fff;
     padding:24px;
     border-radius:14px;
     text-align:center;
     color:#64748b;
-    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
 }
 
-.box-info{
-    margin-bottom:16px;
-    padding:16px;
+.badge-info{
+    display:none;
+    background:#dbeafe;
+    color:#1d4ed8;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
 }
 
-.oculto{
-    display:none !important;
+.badge-dep{
+    display:none;
+    background:#ede9fe;
+    color:#6d28d9;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.btn-limpar-dep,
+#btnVoltarMatriz{
+    background:#1e293b;
+    color:white;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
 }
 
 @media(max-width:768px){
-    .topo h2{
-        font-size:22px;
-    }
-
-    .message-box{
-        padding:6px 8px;
-    }
-
-    .btn-send{
-        width:40px;
-        height:40px;
+    .topo h2{font-size:22px}
+    .message-box{padding:6px 8px}
+    .btn-plus,.btn-send{
+        width:42px;
+        height:42px;
+        min-width:42px;
     }
 }
 </style>
 </head>
 
 <body>
-<button class="menu-toggle" id="menuToggle">☰</button>
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="app">
 
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar">
         <h2>IECA</h2>
 
         <ul>
             <li class="active" onclick="window.location.href='feed.html'">
                 <i class="fas fa-home"></i> Feed
             </li>
-
             <li onclick="window.location.href='pages/congregacao.html'">
                 <i class="fas fa-church"></i> Congregações
             </li>
-
-            <li onclick="irParaAreaProtegida('pages/departamento.html')">
+            <li onclick="window.location.href='pages/departamento.html'">
                 <i class="fas fa-users"></i> Departamentos
             </li>
-
-            <li onclick="irParaAreaProtegida('pages/secretaria.html')">
+            <li onclick="window.location.href='pages/secretaria.html'">
                 <i class="fas fa-file-alt"></i> Secretaria
             </li>
-
-            <li onclick="irParaAreaProtegida('pages/financeiro.html')">
+            <li onclick="window.location.href='pages/financeiro.html'">
                 <i class="fas fa-coins"></i> Financeiro
-            </li>
-
-            <li onclick="window.location.href='usuarios.html'">
-    👥 Usuários
             </li>
         </ul>
     </aside>
 
     <main class="main-content">
         <header class="topo">
-            <div class="topo-left">
-                <h2>📢 Feed</h2>
-                <p class="topo-subtitulo" id="subtituloPagina">Publicações da igreja.</p>
+            <div>
+                <h2 id="tituloPagina">📢 Feed</h2>
+                <p id="subtituloPagina" class="topo-subtitulo"></p>
 
-                <div class="topo-badges">
-                    <span id="badgeUsuario" class="badge-info oculto"></span>
-                    <span id="badgeVisitante" class="badge-visitante">VISUALIZAÇÃO LIVRE</span>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">
+                    <span id="badgeMatriz" class="badge-info">VISÃO MATRIZ</span>
+                    <span id="badgeDepartamento" class="badge-dep"></span>
                 </div>
             </div>
 
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button id="btnLogout" onclick="logout()">Sair</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button id="btnLimparDepartamento" class="btn-limpar-dep" style="display:none;" onclick="limparDepartamento()">Limpar departamento</button>
+                <button id="btnVoltarMatriz" style="display:none;" onclick="voltarMatriz()">⬅️ Voltar para Matriz</button>
             </div>
         </header>
 
         <div class="container">
-            <div class="live-box">
-                <a href="https://youtube.com/@IECAUMAIGREJAFAMILIA" target="_blank" rel="noopener noreferrer">
-                    <button class="live-btn">▶ YouTube</button>
-                </a>
-                <span id="liveStatus" class="live-text">Nenhuma transmissão ao vivo no momento</span>
+
+            <div id="areaMatriz" class="live-box">
+                <button class="live-btn" onclick="abrirYoutube()">▶ YouTube</button>
+                <span id="liveStatus" class="live-text"></span>
             </div>
 
-            <div id="boxInfoVisitante" class="box-info">
-                Você pode visualizar o feed livremente. Para publicar, faça login.
-            </div>
-
-            <div class="message-container oculto" id="composerArea">
+            <div class="message-container">
                 <div class="message-box">
+
+                    <button class="btn-plus" onclick="abrirUpload()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+
                     <input type="text" id="texto" placeholder="Escreva uma mensagem...">
-                    <button class="btn-send" onclick="criarPostHandler()">➤</button>
+
+                    <button class="btn-send" onclick="criarPost()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+
+                </div>
+
+                <input 
+                    type="file" 
+                    id="midia" 
+                    accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" 
+                    hidden
+                >
+
+                <div id="filePreview" class="file-preview">
+                    <span id="filePreviewText">Nenhum arquivo selecionado</span>
+                    <button onclick="removerArquivo()">Remover</button>
                 </div>
             </div>
 
             <section id="feed"></section>
+
         </div>
     </main>
 </div>
 
-<script type="module">
-import { listarPosts, criarPost, getUsuarioAtual, logoutRequest } from "./js/modules/posts.js";
+<script src="js/services/storage.js"></script>
 
-let usuarioAtual = null;
-let autenticado = false;
-let posts = [];
+<script>
+const nomesDepartamentos = {
+    missoes: "Missões",
+    mulheres: "Mulheres",
+    homens: "Homens",
+    jovens: "Jovens",
+    infantil: "Infantil",
+    diaconato: "Diaconato",
+    coral: "Coral",
+    intercessao: "Intercessão",
+    social: "Social",
+    estudos: "Estudos"
+};
+
+let context = storage.get("app_context", null);
+
+if(!context || typeof context !== "object" || Array.isArray(context) || !context.tipo){
+    context = {
+        tipo: "matriz",
+        nome: "Matriz",
+        congregacao_id: null,
+        departamento: null,
+        departamento_nome: null
+    };
+    storage.set("app_context", context);
+}
+
+let posts = storage.get("posts", []);
+if(!Array.isArray(posts)) posts = [];
+
+let arquivoSelecionado = null;
+
+function isMatriz(){
+    return context.tipo === "matriz";
+}
+
+function gerarId(){
+    return Date.now().toString() + Math.floor(Math.random() * 1000).toString();
+}
 
 function escaparHTML(texto){
     return String(texto || "")
@@ -354,152 +424,252 @@ function formatarData(dataISO){
     return data.toLocaleString("pt-BR");
 }
 
-function atualizarTopo(){
-    const badgeUsuario = document.getElementById("badgeUsuario");
-    const badgeVisitante = document.getElementById("badgeVisitante");
-    const btnLogout = document.getElementById("btnLogout");
-    const composerArea = document.getElementById("composerArea");
-    const boxInfoVisitante = document.getElementById("boxInfoVisitante");
-    const subtitulo = document.getElementById("subtituloPagina");
+function atualizarTitulo(){
+    const departamentoAtivo = context.departamento_nome || nomesDepartamentos[context.departamento] || "";
 
-    if(autenticado && usuarioAtual){
-        badgeUsuario.classList.remove("oculto");
-        badgeUsuario.textContent = `${usuarioAtual.nome} • ${usuarioAtual.tipo}`;
-        badgeVisitante.style.display = "none";
-        btnLogout.style.display = "inline-block";
-        composerArea.classList.remove("oculto");
-        boxInfoVisitante.style.display = "none";
-        subtitulo.textContent = "Publicações da igreja e da sua congregação.";
+    document.getElementById("tituloPagina").innerText =
+        departamentoAtivo
+            ? `📢 Feed - ${context.nome || "IECA"} / ${departamentoAtivo}`
+            : `📢 Feed - ${context.nome || "IECA"}`;
+
+    document.getElementById("subtituloPagina").innerText = isMatriz()
+        ? "Visão geral de publicações de todas as congregações."
+        : `Publicações da congregação ${context.nome || ""}.`;
+
+    document.getElementById("badgeMatriz").style.display = isMatriz() ? "inline-block" : "none";
+
+    const badgeDepartamento = document.getElementById("badgeDepartamento");
+    const btnLimpar = document.getElementById("btnLimparDepartamento");
+
+    if(departamentoAtivo){
+        badgeDepartamento.style.display = "inline-block";
+        badgeDepartamento.innerText = departamentoAtivo;
+        btnLimpar.style.display = "inline-block";
     }else{
-        badgeUsuario.classList.add("oculto");
-        badgeVisitante.style.display = "inline-block";
-        btnLogout.style.display = "none";
-        composerArea.classList.add("oculto");
-        boxInfoVisitante.style.display = "block";
-        subtitulo.textContent = "Publicações da igreja.";
+        badgeDepartamento.style.display = "none";
+        badgeDepartamento.innerText = "";
+        btnLimpar.style.display = "none";
     }
 }
 
-async function carregarSessao(){
-    usuarioAtual = await getUsuarioAtual();
-    autenticado = !!usuarioAtual;
-    atualizarTopo();
+function controlarBotaoMatriz(){
+    document.getElementById("btnVoltarMatriz").style.display =
+        isMatriz() ? "none" : "inline-block";
 }
 
-async function carregarPostsDoBackend(){
-    try{
-        const data = await listarPosts();
+function controlarAreaMatriz(){
+    document.getElementById("areaMatriz").style.display =
+        isMatriz() ? "flex" : "none";
+}
 
-        posts = data.map(p => ({
-            id: p.id,
-            texto: p.conteudo,
-            data: p.criado_em,
-            congregacao_nome: p.congregacao_nome || "IECA",
-            autor_nome: p.autor_nome || "Usuário"
-        }));
-    }catch(error){
-        console.error(error);
-        posts = [];
+function voltarMatriz(){
+    const novo = {
+        tipo: "matriz",
+        nome: "Matriz",
+        congregacao_id: null,
+        departamento: null,
+        departamento_nome: null
+    };
+
+    storage.set("app_context", novo);
+    window.location.href = "feed.html";
+}
+
+function limparDepartamento(){
+    const novoContexto = {
+        ...context,
+        departamento: null,
+        departamento_nome: null
+    };
+
+    storage.set("app_context", novoContexto);
+    window.location.href = "feed.html";
+}
+
+function getPostsFiltrados(){
+    let lista = [...posts];
+
+    if(!isMatriz()){
+        lista = lista.filter(p => p.congregacao_id === context.congregacao_id);
     }
+
+    if(context.departamento){
+        lista = lista.filter(p => p.departamento === context.departamento);
+    }
+
+    return lista;
+}
+
+function abrirUpload(){
+    document.getElementById("midia").click();
+}
+
+document.getElementById("midia").addEventListener("change", function(event){
+    const arquivo = event.target.files[0];
+
+    if(!arquivo){
+        arquivoSelecionado = null;
+        atualizarPreviewArquivo();
+        return;
+    }
+
+    arquivoSelecionado = arquivo;
+    atualizarPreviewArquivo();
+});
+
+function atualizarPreviewArquivo(){
+    const preview = document.getElementById("filePreview");
+    const texto = document.getElementById("filePreviewText");
+
+    if(!arquivoSelecionado){
+        preview.style.display = "none";
+        texto.innerText = "Nenhum arquivo selecionado";
+        return;
+    }
+
+    preview.style.display = "flex";
+    texto.innerText = `Arquivo selecionado: ${arquivoSelecionado.name}`;
+}
+
+function removerArquivo(){
+    arquivoSelecionado = null;
+    document.getElementById("midia").value = "";
+    atualizarPreviewArquivo();
+}
+
+function criarPost(){
+    const texto = document.getElementById("texto").value.trim();
+
+    if(!texto && !arquivoSelecionado){
+        alert("Escreva uma mensagem ou selecione uma foto/vídeo.");
+        return;
+    }
+
+    const postBase = {
+        id: gerarId(),
+        texto,
+        data: new Date().toISOString(),
+        congregacao_id: context.congregacao_id,
+        congregacao_nome: context.nome || "Matriz",
+        departamento: context.departamento || null,
+        departamento_nome: context.departamento_nome || null,
+        arquivo: null
+    };
+
+    if(arquivoSelecionado){
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+            postBase.arquivo = {
+                nome: arquivoSelecionado.name,
+                tipo: arquivoSelecionado.type,
+                url: e.target.result
+            };
+
+            posts.push(postBase);
+            storage.set("posts", posts);
+            limparComposer();
+            render();
+        };
+
+        reader.readAsDataURL(arquivoSelecionado);
+        return;
+    }
+
+    posts.push(postBase);
+    storage.set("posts", posts);
+    limparComposer();
+    render();
+}
+
+function renderMidia(arquivo){
+    if(!arquivo || !arquivo.url) return "";
+
+    const tipo = arquivo.tipo || "";
+    const nome = escaparHTML(arquivo.nome || "arquivo");
+
+    if(tipo.startsWith("image/")){
+        return `
+            <div class="post-media">
+                <img src="${arquivo.url}" alt="${nome}">
+            </div>
+        `;
+    }
+
+    if(tipo.startsWith("video/")){
+        return `
+            <div class="post-media">
+                <video controls>
+                    <source src="${arquivo.url}" type="${tipo}">
+                    Seu navegador não suporta vídeo.
+                </video>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="post-media">
+            <a href="${arquivo.url}" download="${nome}">📄 Baixar ${nome}</a>
+        </div>
+    `;
 }
 
 function render(){
     const feed = document.getElementById("feed");
     feed.innerHTML = "";
 
-    if(!posts.length){
+    const lista = getPostsFiltrados()
+        .sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+
+    if(!lista.length){
         feed.innerHTML = `
             <div class="empty-feed">
-                Nenhuma publicação encontrada.
+                Nenhuma publicação encontrada para este feed.
             </div>
         `;
         return;
     }
 
-    posts.forEach(p => {
+    lista.forEach(p => {
         feed.innerHTML += `
             <div class="post">
                 <div class="post-header">
                     <div class="post-tags">
-                        <span class="post-igreja">${escaparHTML(p.congregacao_nome)}</span>
-                        <span class="post-autor">${escaparHTML(p.autor_nome)}</span>
+                        <span class="post-igreja">${escaparHTML(p.congregacao_nome || "Sem congregação")}</span>
+                        ${p.departamento_nome ? `<span class="post-departamento">${escaparHTML(p.departamento_nome)}</span>` : ""}
                     </div>
                     <span class="post-data">${formatarData(p.data)}</span>
                 </div>
 
-                <p>${escaparHTML(p.texto)}</p>
+                ${p.texto ? `<p>${escaparHTML(p.texto)}</p>` : ""}
+                ${renderMidia(p.arquivo)}
             </div>
         `;
     });
 }
 
-window.criarPostHandler = async function(){
-    if(!autenticado){
-        alert("Faça login para publicar.");
-        return;
-    }
-
-    const texto = document.getElementById("texto").value.trim();
-
-    if(!texto){
-        alert("Escreva uma mensagem.");
-        return;
-    }
-
-    try{
-        await criarPost(texto);
-        document.getElementById("texto").value = "";
-        await carregarPostsDoBackend();
-        render();
-    }catch(error){
-        alert(error.message);
-    }
-};
-
-window.logout = async function(){
-    await logoutRequest();
-};
-
-window.irParaAreaProtegida = function(url){
-    if(!autenticado){
-        alert("Faça login para acessar esta área.");
-        window.location.href = "index.html";
-        return;
-    }
-
-    window.location.href = url;
-};
-
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.getElementById("sidebar");
-const sidebarOverlay = document.getElementById("sidebarOverlay");
-
-if(menuToggle && sidebar && sidebarOverlay){
-    menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        sidebarOverlay.classList.toggle("show");
-    });
-
-    sidebarOverlay.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-        sidebarOverlay.classList.remove("show");
-    });
-
-    window.addEventListener("resize", () => {
-        if(window.innerWidth > 768){
-            sidebar.classList.remove("open");
-            sidebarOverlay.classList.remove("show");
-        }
-    });
+function verificarLive(){
+    const live = storage.get("live", {});
+    document.getElementById("liveStatus").innerText =
+        live && live.ativo ? "🔴 AO VIVO AGORA" : "Nenhuma transmissão ao vivo no momento";
 }
 
-async function iniciar(){
-    await carregarSessao();
-    await carregarPostsDoBackend();
-    render();
+function abrirYoutube(){
+    window.open("https://youtube.com/@IECAUMAIGREJAFAMILIA", "_blank");
 }
 
-iniciar();
+function limparComposer(){
+    document.getElementById("texto").value = "";
+    document.getElementById("midia").value = "";
+    arquivoSelecionado = null;
+    atualizarPreviewArquivo();
+}
+
+controlarBotaoMatriz();
+atualizarTitulo();
+controlarAreaMatriz();
+render();
+verificarLive();
 </script>
 
 </body>
