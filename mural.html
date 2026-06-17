@@ -428,7 +428,7 @@
 
       return comentarios.map(comentario => {
         const autor = pegarCampo(comentario, ["autor_nome", "autor", "nome"]) || "Membro";
-        const texto = pegarCampo(comentario, ["texto", "comentario", "mensagem", "conteudo"]);
+        const texto = pegarCampo(post, ["texto", "conteudo", "conteúdo", "mensagem", "descricao"]);
 
         return `
           <div class="comment">
@@ -445,7 +445,7 @@
       const { data: posts, error } = await supabase
         .from("posts")
         .select("*")
-        .order("criado_em", { ascending: false });
+        .order("criado_at", { ascending: false });
 
       if (error) {
         mural.innerHTML = `
@@ -469,9 +469,9 @@
 
       for (const post of posts) {
         const titulo = pegarCampo(post, ["titulo", "title"]);
-        const texto = pegarCampo(post, ["texto", "conteudo", "mensagem", "descricao"]);
+        const texto = pegarCampo(post, [ "conteudo", "texto",  "mensagem", "descricao"]);
         const autor = pegarCampo(post, ["autor_nome", "autor", "criado_por", "departamento"]) || "IECA";
-        const dataPost = pegarCampo(post, ["criado_em", "created_at", "data"]);
+        const dataPost = pegarCampo(post, [ "created_at","criado_em", "data"]);
         const midiaUrl = pegarCampo(post, ["midia_url", "media_url", "arquivo_url", "url"]);
         const midiaTipo = pegarCampo(post, ["midia_tipo", "media_tipo", "tipo_arquivo", "tipo"]);
         const congregacao = pegarCampo(post, ["congregacao", "igreja", "setor"]);
